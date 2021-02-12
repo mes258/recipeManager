@@ -6,6 +6,10 @@ var addNewItem = document.getElementById("addNewItem");
 var recipes = []
 var items = []
 
+var measurements = [
+  "tsp", "Tbsp", "cup", "pint", "quart", "oz."
+]
+
 init();
 
 function init(){
@@ -76,13 +80,21 @@ function showRecipes(){
 
   for (i = 0; i < numberOfListRecipes; ++i) {
       var itemRow = document.createElement('tr');
+
+      var recipeCheckbox = document.createElement('td');
+      var tempRecipe = new recipe(recipes[i].id, recipes[i].name, recipes[i].url, recipes[i].ingredients);
+      recipeCheckbox.innerHTML = '<input type="checkbox" id="recipeBox' + recipes[i].id + '" onchange=\'recipeBoxChanged(' + JSON.stringify(tempRecipe) + ')\'/>';
+
+
+
+
       var itemData = document.createElement('td');
 
       // Add the item text
       //itemData.innerHTML = "<a href=\"" + recipes[i].url + "\">" + recipes[i].name + "</a>";
       itemData.innerHTML = recipes[i].name;
 
-
+      itemRow.appendChild(recipeCheckbox)
       itemRow.appendChild(itemData);
       recipeTable.appendChild(itemRow);
   }
@@ -101,10 +113,6 @@ addNewItem.onclick = function(){
     socket.emit("newItem", newItem);
   }
 }
-
-var measurements = [
-  "tsp", "Tbsp", "cup", "pint", "quart", "oz."
-]
 
 addNewRecipe.onclick = function(){
   var recipeName = document.getElementById("newRecipeName").value;
