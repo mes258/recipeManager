@@ -75,7 +75,7 @@
 
       }else{
         console.log("UNchecked. id: " + item.id);
-        finalList =  finalList.filter(data => data.id != item.id);
+        finalList =  finalList.filter(data => data.id != item.id && data.name != item.name);
 
         var item = document.getElementById("listItem" + item.id);
         item.parentNode.removeChild(item);
@@ -85,6 +85,25 @@
 
     function recipeBoxChanged(recipe){
       console.log(recipe)
+      if (document.getElementById('recipeBox'+recipe.id).checked) {
+        finalList.push(recipe)
+        
+        var htmlList = document.getElementById('finalList');
+
+        var numberOfIng = recipe.ingredients.length;
+        var i;
+
+        for (i = 0; i < numberOfIng; ++i) {
+
+          var listItem = document.createElement('li');
+          listItem.innerHTML = recipe.ingredients[i].quantity + 'x ' + recipe.ingredients[i].name;
+          listItem.className = "recipe" + recipe.id + "ing" + i;
+
+          htmlList.appendChild(listItem);
+        }
+      }else{
+        //getElementsByClassName
+      }
     }
 
     function updateListDisplay(){

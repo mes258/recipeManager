@@ -85,9 +85,6 @@ function showRecipes(){
       var tempRecipe = new recipe(recipes[i].id, recipes[i].name, recipes[i].url, recipes[i].ingredients);
       recipeCheckbox.innerHTML = '<input type="checkbox" id="recipeBox' + recipes[i].id + '" onchange=\'recipeBoxChanged(' + JSON.stringify(tempRecipe) + ')\'/>';
 
-
-
-
       var itemData = document.createElement('td');
 
       // Add the item text
