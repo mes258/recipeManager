@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <title>Grocery List</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="#" />
+  </head>
+
+  <body>
+    <div id="topBar">
+      <input type="file" id="itemListFile"></input>
+      <button id="loadLists">Load Lists</button>
+
+    </div>
+    <div id="main">
+      <div id="lists">
+        <div id="recipeList"> 
+          <table id="recipeTable">
+
+          </table>
+        </div>
+        <div id="itemList">
+          <table id="itemTable">
+
+          </table>
+        </div>
+      </div>
+      <div id="finalListDiv">
+        <h3>The final list:</h3>
+        <ul id="finalList">
+
+        </ul>
+      </div>
+      <div id="addNew">
+        <p>Add new recipe: </p>
+        Name: <input id="newRecipeName" type="text"/>
+        Link: <input id="newRecipeLink" type="text"/>
+        Ingredients: <textarea id="newRecipeIng" name="text" rows="12" cols="50"></textarea>
+        
+        <button id="addNewRecipe">Add item</button>
+        
+        <p>Add new item: </p>
+        Item: <input id="newItem" type="text"/>
+        Section: <select id="newItemSection">
+          <option value="dairy">Dairy</option>
+          <option value="Dry Goods">Dry Goods</option>
+          <option value="Canned Goods">Canned Goods</option>
+          <option value="Meat">Meat</option>
+          <option value="Beverages">Beverages</option>
+          <option value="Produce">Produce</option>
+          <option value="Household Goods">Household Goods</option>
+          <option value="Health and Beauty">Health and Beauty</option>
+          <option value="Other">Other</option>
+        </select>
+        <button id="addNewItem">Add item</button>
+
+      </div>
+    </div>
+    
+
+  <script>
+    var finalList = [];
+    
+    function itemBoxChanged(item){
+      //console.log(itemStr)
+      //var item = JSON.parse(itemStr);
+      console.log(item)
+      if (document.getElementById('itemBox'+item.id).checked) {
+        finalList.push(item)
+        var listItem = document.createElement('li');
+        listItem.innerHTML = item.quantity + 'x ' + item.name;
+        listItem.id = "listItem" + item.id;
+
+        var htmlList = document.getElementById('finalList');
+        htmlList.appendChild(listItem);
+
+      }else{
+        console.log("UNchecked. id: " + item.id);
+        finalList =  finalList.filter(data => data.id != item.id);
+
+        var item = document.getElementById("listItem" + item.id);
+        item.parentNode.removeChild(item);
+      }
+      updateListDisplay();
+    }
+
+    function updateListDisplay(){
+
+    }
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./client/socketScript.js"></script>
+  <script type="module" src="./client/script.js"></script>
+</body>
+
+</html>
