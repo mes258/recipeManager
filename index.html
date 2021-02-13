@@ -67,7 +67,7 @@
       if (document.getElementById('itemBox'+item.id).checked) {
         finalList.push(item)
         var listItem = document.createElement('li');
-        listItem.innerHTML = item.quantity + 'x ' + item.name;
+        listItem.innerHTML = item.quantity + " " + item.name;
         listItem.id = "listItem" + item.id;
 
         var htmlList = document.getElementById('finalList');
@@ -96,13 +96,20 @@
         for (i = 0; i < numberOfIng; ++i) {
 
           var listItem = document.createElement('li');
-          listItem.innerHTML = recipe.ingredients[i].quantity + 'x ' + recipe.ingredients[i].name;
-          listItem.className = "recipe" + recipe.id + "ing" + i;
+          listItem.innerHTML = recipe.ingredients[i].quantity +" "+ recipe.ingredients[i].name;
+          listItem.className = "recipe" + recipe.id + "ing";
 
           htmlList.appendChild(listItem);
         }
       }else{
-        //getElementsByClassName
+        console.log("UNchecked. id: " + recipe.id);
+        finalList =  finalList.filter(data => data.id != recipe.id && data.name != recipe.name);
+
+        var ings = document.getElementsByClassName("recipe" + recipe.id + "ing");
+
+        while(ings.length > 0){
+          ings[0].parentNode.removeChild(ings[0]);
+        }
       }
     }
 
