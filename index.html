@@ -10,6 +10,8 @@
       <input type="file" id="itemListFile"></input>
       <button id="loadLists">Load Lists</button>
 
+      <button id="listTxt" onclick="downloadListTxt()">Download list txt</button>
+
     </div>
     <div id="main">
       <div id="lists">
@@ -80,7 +82,6 @@
         var item = document.getElementById("listItem" + item.id);
         item.parentNode.removeChild(item);
       }
-      updateListDisplay();
     }
 
     function recipeBoxChanged(recipe){
@@ -113,8 +114,35 @@
       }
     }
 
-    function updateListDisplay(){
+    function formatListTxt(ingList){
+      //TODO: format by sections, combine ingredients
+      //first sort by sections: 
+    }
 
+    function downloadListTxt(){
+      var listWithRecipes = finalList;
+      var ingList = [];
+
+      //clean up this logic. 
+      for(var i = 0; i < listWithRecipes.length; ++i){
+        //this is not a great way to sort the items from recipes. maybe add types...
+        if(listWithRecipes[i].section != undefined){
+          //items: 
+          ingList.push(listWithRecipes[i])
+        }else{
+          //recipes:
+          for(var j = 0; j < listWithRecipes[i].ingredients.length; ++j){
+            ingList.push(listWithRecipes[i].ingredients[j])
+          }
+        }
+      }
+
+      console.log("ingredient list:" );
+      console.log(ingList);
+      //first format: 
+      formatListTxt(ingList);
+
+      //then download.
     }
   </script>
   <script src="/socket.io/socket.io.js"></script>
