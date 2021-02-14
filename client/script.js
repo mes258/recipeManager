@@ -2,6 +2,11 @@ var itemListFile = document.getElementById("itemListFile");
 var recipieListFile = document.getElementById("recipieListFile"); 
 var addNewRecipe = document.getElementById("addNewRecipe");
 var addNewItem = document.getElementById("addNewItem");
+var modal = document.getElementById("myModal");
+var tstbtn = document.getElementById("testButton");
+var sectionPicker = document.getElementById("sectionPicker");
+var addSection = document.getElementById("addSection");
+
 
 var recipes = []
 var items = []
@@ -117,7 +122,6 @@ addNewItem.onclick = function(){
 
       //Need to check the section because an ingredient from a recipe could have already added a section.
       if(ingredientSections.has(newItem.name)){
-        console.log(ingredientSections.get(newItem.name));
         if(ingredientSections.get(newItem.name) != newItem.section){
           //Update the section
           alert("Updating the section for " + newItem.name + ". Old Section: " + ingredientSections.get(newItem.name) + "; New section: " + newItem.section + ".");
@@ -145,6 +149,7 @@ addNewRecipe.onclick = function(){
     var allIng = document.getElementById("newRecipeIng").value;
     var allIngList = allIng.split("\n");
     var newIngredients = [];
+    var ingId = 0;
     (allIngList).forEach(str => {
       var ing = str.trim();
       var sections = ing.split(" ");
@@ -163,14 +168,15 @@ addNewRecipe.onclick = function(){
       }
 
       ingName = sections.join(" ")
+      recipeId = recipes.length;
+      section = getItemSection(ingName, recipeId, ingId);
 
-      section = getItemSelection(ingName);
-
-      var newIng = new item(-1, ingName, quantity, section);
+      var newIng = new item(ingId, ingName, quantity, section);
       newIngredients.push(newIng);
+      ingId++;
     });
 
-    var newRec = new recipe(recipes.length, recipeName, recipeLink, newIngredients);
+    var newRec = new recipe(recipeId, recipeName, recipeLink, newIngredients);
     console.log(newRec)
 
     recipes.push(newRec)
@@ -180,6 +186,72 @@ addNewRecipe.onclick = function(){
   }
 }
 
-function getItemSelection(name){
-  return "Other";
+tstbtn.onclick = function(){
+  var sec = getItemSection("test1");
+  console.log(sec);
+}
+
+var newSection = "INVALID"
+function getItemSection(name, recipeId, ingId){
+  if(ingredientSections.has(name)){
+    return ingredientSections.get(name);
+  }else{
+    var model_table = document.getElementById("modal-table");
+    var model_table_row = document.createElement('tr');
+
+    var ingName = document.createElement('td');
+    ingName.innerHTML = name;
+    var ingSecPicker = document.createElement('td');
+    //TODO: store the dropdown as a const and use same list everywhere
+    ingSecPicker.innerHTML = '<select id="sectionPicker'+ recipeId + '-' + ingId + '"> \
+          <option value="Dairy">Dairy</option>\
+          <option value="Bakery">Bakery</option>\
+          <option value="Dry Goods">Dry Goods</option>\
+          <option value="Canned Goods">Canned Goods</option>\
+          <option value="Meat">Meat</option>\
+          <option value="Beverages">Beverages</option>\
+          <option value="Produce">Produce</option>\
+          <option value="Frozen">Frozen</option>\
+          <option value="Household Goods">Household Goods</option>\
+          <option value="Health and Beauty">Health and Beauty</option>\
+          <option value="Other">Other</option>\
+        </select>';
+    
+    ingSecPicker.id = recipeId + "-" + ingId;
+    //modal.style.display = "block";
+
+    model_table_row.appendChild(ingName);
+    model_table_row.appendChild(ingSecPicker);
+
+    model_table.appendChild(model_table_row)
+
+    return "Not Specified";
+  }
+
+}
+
+addSection.onclick = function(){
+  //modal.style.display = "none";
+  var tbl = document.getElementById(model_table);
+  while(tbl.hasChildNodes){
+    var tr = tbl.firstChild();
+    var tds = tr.children;
+    var name = tds[0].value;
+    var idStrs = tds[1].id.split('-');
+    var recipeId = idStrs[0];
+    var ingId = idStrs[0];
+
+    var pickedSection = tds[1].firstChild.value;
+
+    for(var i = 0; i < recipes.length; ++i){
+      if(recipes[i].id == recipeId){
+        for(var j = 0; j < recipes[i].ingredients.length; j++){
+          recipes[i].ingredients[j].section = pickedSection;
+        }
+      }
+    }//TODO: test this logic, add a way to send an update insead of re-adding the entire var. 
+
+  }
+  newSection = sectionName;
+  modal.style.display = "none";
 }
