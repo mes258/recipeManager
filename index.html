@@ -117,6 +117,31 @@
     function formatListTxt(ingList){
       //TODO: format by sections, combine ingredients
       //first sort by sections: 
+      var sortedBySection = {};
+      sections = [];
+
+      for(var i = 0; i < ingList.length; ++i){
+        var ing = ingList[i];
+        if(sortedBySection[ing.section] != undefined){
+          sortedBySection[ing.section].push(ing);
+        }else{
+          sortedBySection[ing.section] = [];
+          sortedBySection[ing.section].push(ing);
+          sections.push(ing.section);
+        }
+      }
+
+      var txtOutput = "";
+      for(var i = 0; i < sections.length; ++i){
+        txtOutput += "\n" + sections[i] + "\n";
+        var ingsInSection = sortedBySection[sections[i]]
+        for(var j = 0; j < ingsInSection.length; ++j){
+          txtOutput += "\u2022" + ingsInSection[j].quantity + " " + ingsInSection[j].name + "\n";
+        }
+      }
+
+      console.log(txtOutput)
+      return txtOutput;
     }
 
     function downloadListTxt(){
@@ -140,9 +165,24 @@
       console.log("ingredient list:" );
       console.log(ingList);
       //first format: 
-      formatListTxt(ingList);
+      var text = formatListTxt(ingList);
 
+      download(text);
       //then download.
+      function download(text) {
+        var fileDate = new Date();
+        var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth()+ 1) + "-" + fileDate.getDate() + "List.txt";
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+      }
     }
   </script>
   <script src="/socket.io/socket.io.js"></script>
