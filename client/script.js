@@ -5,6 +5,7 @@ var addNewItem = document.getElementById("addNewItem");
 
 var recipes = []
 var items = []
+var ingredientSections = new Map();
 
 var measurements = [
   "tsp", "Tbsp", "cup", "pint", "quart", "oz."
@@ -18,7 +19,6 @@ function init(){
 
 socket.on("updateItemList", function(list){
   items = list;
-  console.log(items);
   showItems();
 });
 
@@ -27,6 +27,9 @@ socket.on("updateRecipeList", function(list){
   showRecipes();
 });
 
+socket.on("updateIngredientSections", function(map){
+  ingredientSections = new Map(map);
+});
 
 
 function recipe(id, name, url, ingredients){
@@ -95,19 +98,43 @@ function showRecipes(){
       itemRow.appendChild(itemData);
       recipeTable.appendChild(itemRow);
   }
-
 }
 
 addNewItem.onclick = function(){
   var itemName = document.getElementById("newItem").value;
   if(itemName != ""){
-    var itemSection = document.getElementById("newItemSection").value;
-    document.getElementById("newItem").value = "";
-    var newItem = new item(items.length, itemName, 1, itemSection)
-    
-    items.push(newItem)
-    showItems()
-    socket.emit("newItem", newItem);
+    var alreadyExists = false;
+    items.forEach(element => {
+      if(element.name == itemName){
+        alreadyExists = true;
+        alert(element.name + " has already been added.");
+      }
+    });
+    if(!alreadyExists){
+      var itemSection = document.getElementById("newItemSection").value;
+      document.getElementById("newItem").value = "";
+      var newItem = new item(items.length, itemName, 1, itemSection)
+
+      //Need to check the section because an ingredient from a recipe could have already added a section.
+      if(ingredientSections.has(newItem.name)){
+        console.log(ingredientSections.get(newItem.name));
+        if(ingredientSections.get(newItem.name) != newItem.section){
+          //Update the section
+          alert("Updating the section for " + newItem.name + ". Old Section: " + ingredientSections.get(newItem.name) + "; New section: " + newItem.section + ".");
+          socket.emit("newIngredientSection", [[newItem.name, newItem.section]])
+        }else{
+          console.log("sections match for ingredient: " + newItem.name);
+        }
+      }else{
+        ingredientSections.set(newItem.name, newItem.section);
+        socket.emit("newIngredientSection", [[newItem.name, newItem.section]])
+      }
+      
+
+      items.push(newItem)
+      showItems()
+      socket.emit("newItem", newItem);
+    }
   }
 }
 

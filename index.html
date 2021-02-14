@@ -43,12 +43,14 @@
         <p>Add new item: </p>
         Item: <input id="newItem" type="text"/>
         Section: <select id="newItemSection">
-          <option value="dairy">Dairy</option>
+          <option value="Dairy">Dairy</option>
+          <option value="Bakery">Bakery</option>
           <option value="Dry Goods">Dry Goods</option>
           <option value="Canned Goods">Canned Goods</option>
           <option value="Meat">Meat</option>
           <option value="Beverages">Beverages</option>
           <option value="Produce">Produce</option>
+          <option value="Frozen">Frozen</option>
           <option value="Household Goods">Household Goods</option>
           <option value="Health and Beauty">Health and Beauty</option>
           <option value="Other">Other</option>
@@ -114,7 +116,7 @@
       }
     }
 
-    function formatListTxt(ingList){
+    function sortBySections(ingList){
       //TODO: format by sections, combine ingredients
       //first sort by sections: 
       var sortedBySection = {};
@@ -131,6 +133,12 @@
         }
       }
 
+      return {"sortedBySection": sortedBySection, "sections": sections};
+    }
+
+    function formatTxt(sectionInfo){
+      sortedBySection = sectionInfo.sortedBySection;
+      sections = sectionInfo.sections;
       var txtOutput = "";
       for(var i = 0; i < sections.length; ++i){
         txtOutput += "\n" + sections[i] + "\n";
@@ -140,14 +148,30 @@
         }
       }
 
-      console.log(txtOutput)
       return txtOutput;
+    }
+
+    //then download.
+    function downloadFile(text) {
+        var fileDate = new Date();
+        var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth()+ 1) + "-" + fileDate.getDate() + "List.txt";
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
     }
 
     function downloadListTxt(){
       var listWithRecipes = finalList;
       var ingList = [];
 
+      //first only have ingredients in the list.
       //clean up this logic. 
       for(var i = 0; i < listWithRecipes.length; ++i){
         //this is not a great way to sort the items from recipes. maybe add types...
@@ -162,27 +186,13 @@
         }
       }
 
-      console.log("ingredient list:" );
-      console.log(ingList);
-      //first format: 
-      var text = formatListTxt(ingList);
+      //second sort by sections:
+      var sectionInfo = sortBySections(ingList);
+      //third format (by txt)
+      var text = formatTxt(sectionInfo);
+      //finally, download
+      downloadFile(text);
 
-      download(text);
-      //then download.
-      function download(text) {
-        var fileDate = new Date();
-        var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth()+ 1) + "-" + fileDate.getDate() + "List.txt";
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-
-        element.style.display = 'none';
-        document.body.appendChild(element);
-
-        element.click();
-
-        document.body.removeChild(element);
-      }
     }
   </script>
   <script src="/socket.io/socket.io.js"></script>

@@ -10,6 +10,7 @@ var io = sio(http);
 
 var ITEM_FILE_PATH = './public/itemList.json';
 var RECIPE_FILE_PATH = './public/recipeList.json';
+var INGREDIENT_SECTION_PATH = './public/ingredientSections.json';
 
 
 app.get('/', (req, res) => {
@@ -38,12 +39,13 @@ app.use('/static', express.static('node_modules'));
 
 var items = require(ITEM_FILE_PATH);
 var recipes = require(RECIPE_FILE_PATH);
-
+var ingredientSections = require(INGREDIENT_SECTION_PATH);
 
 io.on('connection', function(socket){
   socket.on("getLists", function(){
     socket.emit("updateItemList", items);
     socket.emit("updateRecipeList", recipes);
+    socket.emit("updateIngredientSections", ingredientSections);
   });
 
   socket.on("newItem", function(item){
@@ -56,6 +58,16 @@ io.on('connection', function(socket){
   socket.on("newRecipe", function(recipe){
     recipes.push(recipe)
     fs.writeFile(RECIPE_FILE_PATH, JSON.stringify(recipes), function (err) {
+      if (err) return console.log(err);
+    });
+  });
+
+  socket.on("newIngredientSection", function(ingSections){
+    ingSections.forEach(ingSec => {
+      ingredientSections.push([ingSec[0], ingSec[1]])
+    });
+    console.log(ingredientSections);
+    fs.writeFile(INGREDIENT_SECTION_PATH, JSON.stringify(ingredientSections), function (err) {
       if (err) return console.log(err);
     });
   });
