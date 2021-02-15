@@ -16,10 +16,28 @@ var measurements = [
   "tsp", "Tbsp", "cup", "pint", "quart", "oz.", "pinch", "lb.", "cups", "pints", "quarts"
 ]
 
+function getSectionDropdown(dropdownId){
+  return '<select id="' + dropdownId + '"> \
+    <option value="Dairy">Dairy</option>\
+    <option value="Bakery">Bakery</option>\
+    <option value="Dry Goods">Dry Goods</option>\
+    <option value="Canned Goods">Canned Goods</option>\
+    <option value="Condiments and Spices">Condiments and Spices</option>\
+    <option value="Meat">Meat</option>\
+    <option value="Beverages">Beverages</option>\
+    <option value="Produce">Produce</option>\
+    <option value="Frozen">Frozen</option>\
+    <option value="Household Goods">Household Goods</option>\
+    <option value="Health and Beauty">Health and Beauty</option>\
+    <option value="Other">Other</option>\
+  </select>';
+}
 init();
 
 function init(){
   socket.emit("getLists");
+  var itemDropdown = document.getElementById("itemSectionDropdown");
+  itemDropdown.innerHTML = getSectionDropdown("newItemSection");
 }
 
 socket.on("updateItemList", function(list){
@@ -214,20 +232,7 @@ function getItemSection(name, recipeId, ingId){
     ingName.innerHTML = name;
     var ingSecPicker = document.createElement('td');
     //TODO: store the dropdown as a const and use same list everywhere
-    ingSecPicker.innerHTML = '<select id="sectionPicker'+ recipeId + '-' + ingId + '"> \
-          <option value="Dairy">Dairy</option>\
-          <option value="Bakery">Bakery</option>\
-          <option value="Dry Goods">Dry Goods</option>\
-          <option value="Canned Goods">Canned Goods</option>\
-          <option value="Condiments and Spices">Condiments and Spices</option>\
-          <option value="Meat">Meat</option>\
-          <option value="Beverages">Beverages</option>\
-          <option value="Produce">Produce</option>\
-          <option value="Frozen">Frozen</option>\
-          <option value="Household Goods">Household Goods</option>\
-          <option value="Health and Beauty">Health and Beauty</option>\
-          <option value="Other">Other</option>\
-        </select>';
+    ingSecPicker.innerHTML = getSectionDropdown("sectionPicker" + recipeId + "-" + ingId);
     
     ingSecPicker.id = recipeId + "-" + ingId;
 
