@@ -114,8 +114,7 @@ function showRecipes(){
       var itemData = document.createElement('td');
 
       // Add the item text
-      //itemData.innerHTML = "<a href=\"" + recipes[i].url + "\">" + recipes[i].name + "</a>";
-      itemData.innerHTML = recipes[i].name;
+      itemData.innerHTML = "<a href=\"" + recipes[i].url + "\" target=\"_blank\">" + recipes[i].name + "</a>";
 
       itemRow.appendChild(recipeCheckbox)
       itemRow.appendChild(itemData);
