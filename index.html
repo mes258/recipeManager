@@ -1,103 +1,106 @@
 <html>
-  <head>
-    <title>Recipe Manager</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="shortcut icon" href="#" />
-  </head>
 
-  <body>
-    <div id="topBar">
-      <h1 id="pageName">Recipe Manager</h1>
+<head>
+  <title>Recipe Manager</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="shortcut icon" href="#" />
+</head>
+
+<body>
+  <div id="topBar">
+    <h1 id="pageName">Recipe Manager</h1>
+  </div>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <p id="modal-message">The following ingredients do not have saved sections. Please specify the section below.</p>
+      <table id="modal-table">
+
+      </table>
+      <button id="addSection">Add Ingredient Sections</button>
     </div>
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
+  </div>
 
-      <!-- Modal content -->
-      <div class="modal-content">
-        <p id="modal-message">The following ingredients do not have saved sections. Please specify the section below.</p>
-        <table id="modal-table">
+  <div id="main">
+    <div id="lists">
+      <div id="recipeList">
+        <h2 style="margin-left: 1%;">Recipes</h2>
+        <table id="recipeTable">
 
         </table>
-        <button id="addSection">Add Section</button>
+      </div>
+      <div id="itemList">
+        <h2 style="margin-left: 1%;">Items</h2>
+        <table id="itemTable">
+
+        </table>
       </div>
     </div>
+    <div id="finalListDiv">
+      <div id="finalListTopBar">
 
-    <div id="main">
-      <div id="lists">
-        <div id="recipeList"> 
-          <h2 style="margin-left: 1%;">Recipes</h2>
-          <table id="recipeTable">
-
-          </table>
+        <h2 id="finalListTitle">Current List</h2>
+        <div id="downloadButtons">
+          <button id="listTxt" onclick="downloadList('txt')">Download List as .txt</button>
+          <button id="listMd" onclick="downloadList('md')">Download List as .md</button>
         </div>
-        <div id="itemList">
-          <h2 style="margin-left: 1%;">Items</h2>
-          <table id="itemTable">
 
-          </table>
-        </div>
       </div>
-      <div id="finalListDiv">
-        <div id="finalListTopBar">
-          
-            <h2 id="finalListTitle">Current List</h2>
-            <div id="downloadButtons">
-              <button id="listTxt" onclick="downloadList('txt')">Download List as .txt</button>
-              <button id="listMd" onclick="downloadList('md')">Download List as .md</button>  
-            </div>
-            
-        </div>
-        
-        
-        <ul id="finalList">
 
-        </ul>
-      </div>
-      <div id="addNew">
-        <h2>Add a new...</h2>
 
-        <h3>Recipe:</h3>
-        <strong>Recipe Link:</strong><br><input id="newRecipeLink" type="text" onchange="parseRecipeLink()" class="addNewInput"/>
-        <br>
-        <br>
-        <strong>Recipe Name:</strong><br><input id="newRecipeName" type="text" class="addNewInput"/>
-        <br>
-        <br>
-        <strong>Ingredients: </strong> 
-        <br>
-        <div class="addNewInput">Add one ingredient per line in the form: <br>
+      <ul id="finalList">
+
+      </ul>
+    </div>
+    <div id="addNew">
+      <h2>Add a new...</h2>
+
+      <h3>Recipe:</h3>
+      <strong>Recipe Link:</strong><br><input id="newRecipeLink" type="text" onchange="parseRecipeLink()"
+        class="addNewInput" />
+      <br>
+      <br>
+      <strong>Recipe Name:</strong><br><input id="newRecipeName" type="text" class="addNewInput" />
+      <br>
+      <br>
+      <strong>Ingredients: </strong>
+      <br>
+      <div class="addNewInput">Add one ingredient per line in the form: <br>
         <em>1 yellow onion <br>
-        1/2 tsp garlic powder <br>
-        3 15oz. cans kidney beans<br></em>
+          1/2 tsp garlic powder <br>
+          3 15oz. cans kidney beans<br></em>
         <textarea id="newRecipeIng" name="text" rows="12" cols="50"></textarea>
-        </div>
-        <br>
-        <button id="addNewRecipe">Add Recipe</button>
-        <br>
-        <br>
-        <h3>Item:</h3>
-        <strong>Item Name:</strong><br><input id="newItem" type="text" class="addNewInput"/>
-        <br>
-        <br>
-        <strong>Section:</strong><div id="itemSectionDropdown"  class="addNewInput"></div>
-        <br>
-        <button id="addNewItem">Add item</button>
-
       </div>
+      <br>
+      <button id="addNewRecipe">Add Recipe</button>
+      <br>
+      <br>
+      <h3>Item:</h3>
+      <strong>Item Name:</strong><br><input id="newItem" type="text" class="addNewInput" />
+      <br>
+      <br>
+      <strong>Section:</strong>
+      <div id="itemSectionDropdown" class="addNewInput"></div>
+      <br>
+      <button id="addNewItem">Add item</button>
+
     </div>
-    
+  </div>
+
 
   <script>
-    function parseRecipeLink(){
+    function parseRecipeLink() {
       var url = document.getElementById("newRecipeLink").value;
-      if(url.includes("budgetbytes.com")){
+      if (url.includes("budgetbytes.com")) {
         //eg: https://www.budgetbytes.com/tangy-tomato-pasta/
         var urlSections = url.split("/");
-        if(urlSections.length == 5){
+        if (urlSections.length == 5) {
           var nameInUrl = urlSections[3];
           var titleCase = nameInUrl.split('-').map(word => {
-              return word.slice(0, 1).toUpperCase() + word.slice(1)
-            }).join(' ')
+            return word.slice(0, 1).toUpperCase() + word.slice(1)
+          }).join(' ')
           var nameBox = document.getElementById("newRecipeName");
           nameBox.value = titleCase;
         }
@@ -106,12 +109,12 @@
 
 
     var finalList = [];
-    
-    function itemBoxChanged(item){
+
+    function itemBoxChanged(item) {
       //console.log(itemStr)
       //var item = JSON.parse(itemStr);
       console.log(item)
-      if (document.getElementById('itemBox'+item.id).checked) {
+      if (document.getElementById('itemBox' + item.id).checked) {
         finalList.push(item)
         var listItem = document.createElement('li');
         listItem.innerHTML = item.quantity + " " + item.name;
@@ -120,20 +123,20 @@
         var htmlList = document.getElementById('finalList');
         htmlList.appendChild(listItem);
 
-      }else{
+      } else {
         console.log("UNchecked. id: " + item.id);
-        finalList =  finalList.filter(data => data.id != item.id && data.name != item.name);
+        finalList = finalList.filter(data => data.id != item.id && data.name != item.name);
 
         var item = document.getElementById("listItem" + item.id);
         item.parentNode.removeChild(item);
       }
     }
 
-    function recipeBoxChanged(recipe){
+    function recipeBoxChanged(recipe) {
       console.log(recipe)
-      if (document.getElementById('recipeBox'+recipe.id).checked) {
+      if (document.getElementById('recipeBox' + recipe.id).checked) {
         finalList.push(recipe)
-        
+
         var htmlList = document.getElementById('finalList');
 
         var numberOfIng = recipe.ingredients.length;
@@ -142,34 +145,34 @@
         for (i = 0; i < numberOfIng; ++i) {
 
           var listItem = document.createElement('li');
-          listItem.innerHTML = recipe.ingredients[i].quantity +" "+ recipe.ingredients[i].name;
+          listItem.innerHTML = recipe.ingredients[i].quantity + " " + recipe.ingredients[i].name;
           listItem.className = "recipe" + recipe.id + "ing";
 
           htmlList.appendChild(listItem);
         }
-      }else{
+      } else {
         console.log("UNchecked. id: " + recipe.id);
-        finalList =  finalList.filter(data => data.id != recipe.id && data.name != recipe.name);
+        finalList = finalList.filter(data => data.id != recipe.id && data.name != recipe.name);
 
         var ings = document.getElementsByClassName("recipe" + recipe.id + "ing");
 
-        while(ings.length > 0){
+        while (ings.length > 0) {
           ings[0].parentNode.removeChild(ings[0]);
         }
       }
     }
 
-    function sortBySections(ingList){
+    function sortBySections(ingList) {
       //TODO: format by sections, combine ingredients
       //first sort by sections: 
       var sortedBySection = {};
       sections = [];
 
-      for(var i = 0; i < ingList.length; ++i){
+      for (var i = 0; i < ingList.length; ++i) {
         var ing = ingList[i];
-        if(sortedBySection[ing.section] != undefined){
+        if (sortedBySection[ing.section] != undefined) {
           sortedBySection[ing.section].push(ing);
-        }else{
+        } else {
           sortedBySection[ing.section] = [];
           sortedBySection[ing.section].push(ing);
           sections.push(ing.section);
@@ -177,17 +180,17 @@
       }
       console.log(sortedBySection);
       console.log(sections)
-      return {"sortedBySection": sortedBySection, "sections": sections};
+      return { "sortedBySection": sortedBySection, "sections": sections };
     }
 
-    function formatTxt(sectionInfo){
+    function formatTxt(sectionInfo) {
       sortedBySection = sectionInfo.sortedBySection;
       sections = sectionInfo.sections;
       var txtOutput = "";
-      for(var i = 0; i < sections.length; ++i){
+      for (var i = 0; i < sections.length; ++i) {
         txtOutput += "\n" + sections[i] + "\n";
         var ingsInSection = sortedBySection[sections[i]]
-        for(var j = 0; j < ingsInSection.length; ++j){
+        for (var j = 0; j < ingsInSection.length; ++j) {
           txtOutput += "\u2022" + ingsInSection[j].quantity + " " + ingsInSection[j].name + "\n";
         }
       }
@@ -195,14 +198,14 @@
       return txtOutput;
     }
 
-    function formatMd(sectionInfo){
+    function formatMd(sectionInfo) {
       sortedBySection = sectionInfo.sortedBySection;
       sections = sectionInfo.sections;
       var txtOutput = "";
-      for(var i = 0; i < sections.length; ++i){
+      for (var i = 0; i < sections.length; ++i) {
         txtOutput += "## " + sections[i] + "\n";
         var ingsInSection = sortedBySection[sections[i]]
-        for(var j = 0; j < ingsInSection.length; ++j){
+        for (var j = 0; j < ingsInSection.length; ++j) {
           txtOutput += "- " + ingsInSection[j].quantity + " " + ingsInSection[j].name + "\n";
         }
         txtOutput += "\n";
@@ -213,34 +216,40 @@
 
     //then download.
     function downloadFile(text, format) {
-        var fileDate = new Date();
-        var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth()+ 1) + "-" + fileDate.getDate() + "List." + format;
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
+      var fileDate = new Date();
+      var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth() + 1) + "-" + fileDate.getDate() + "List";
+      var fullFilename = filename + "." + format;
+      var element = document.createElement('a');
+      if (format == "txt") {
+        text = filename + text + "\n";
+      } else if (format == "md") {
+        text = "# " + filename + text + "\n";
+      }
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', fullFilename);
 
-        element.style.display = 'none';
-        document.body.appendChild(element);
+      element.style.display = 'none';
+      document.body.appendChild(element);
 
-        element.click();
+      element.click();
 
-        document.body.removeChild(element);
+      document.body.removeChild(element);
     }
 
-    function downloadList(format){
+    function downloadList(format) {
       var listWithRecipes = finalList;
       var ingList = [];
 
       //Step 1: only have ingredients in the list.
       //clean up this logic. 
-      for(var i = 0; i < listWithRecipes.length; ++i){
+      for (var i = 0; i < listWithRecipes.length; ++i) {
         //this is not a great way to sort the items from recipes. maybe add types...
-        if(listWithRecipes[i].section != undefined){
+        if (listWithRecipes[i].section != undefined) {
           //items: 
           ingList.push(listWithRecipes[i])
-        }else{
+        } else {
           //recipes:
-          for(var j = 0; j < listWithRecipes[i].ingredients.length; ++j){
+          for (var j = 0; j < listWithRecipes[i].ingredients.length; ++j) {
             ingList.push(listWithRecipes[i].ingredients[j])
           }
         }
@@ -250,9 +259,9 @@
       var sectionInfo = sortBySections(ingList);
       //Step 3: format based on input type
       var text = "";
-      if(format == "txt"){
+      if (format == "txt") {
         text = formatTxt(sectionInfo);
-      }else if(format == "md"){
+      } else if (format == "md") {
         text = formatMd(sectionInfo);
       }
 

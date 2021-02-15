@@ -25,11 +25,11 @@ app.get('/', (req, res) => {
 //   res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js');
 // });
 
-app.get('/client/script.js', function(req, res){
+app.get('/client/script.js', function (req, res) {
   res.sendFile(__dirname + '/client/script.js');
 });
 
-app.get('/client/socketScript.js', function(req, res){
+app.get('/client/socketScript.js', function (req, res) {
   res.sendFile(__dirname + '/client/socketScript.js');
 });
 
@@ -43,10 +43,10 @@ var ingredientSections
 try {
   ingredientSections = require(INGREDIENT_SECTION_PATH);
 } catch (e) {
-  if(e.toString().includes("Unexpected token [ in JSON")){
+  if (e.toString().includes("Unexpected token [ in JSON")) {
     var fileText = "a";
-    fs.readFile(INGREDIENT_SECTION_PATH, (err, data) => { 
-      if (err) throw err; 
+    fs.readFile(INGREDIENT_SECTION_PATH, (err, data) => {
+      if (err) throw err;
       fileText = data.toString();
       var temp1 = fileText.replace(/\]\]\[/g, "],[");
       var temp2 = temp1.replace(/\]\[\[/g, "],[");
@@ -56,36 +56,35 @@ try {
         if (err) return console.log(err);
       });
     });
-  }else{
+  } else {
     throw e;
   }
 }
 
-io.on('connection', function(socket){
-  socket.on("getLists", function(){
+io.on('connection', function (socket) {
+  socket.on("getLists", function () {
+    console.log(items);
     socket.emit("updateItemList", items);
     socket.emit("updateRecipeList", recipes);
     socket.emit("updateIngredientSections", ingredientSections);
   });
 
-  socket.on("newItem", function(item){
+  socket.on("newItem", function (item) {
     items.push(item)
     fs.writeFile(ITEM_FILE_PATH, JSON.stringify(items), function (err) {
       if (err) return console.log(err);
     });
   });
 
-  socket.on("newRecipe", function(recipe){
+  socket.on("newRecipe", function (recipe) {
     recipes.push(recipe)
     fs.writeFile(RECIPE_FILE_PATH, JSON.stringify(recipes), function (err) {
       if (err) return console.log(err);
     });
   });
 
-  socket.on("newIngredientSection", function(ingSec){
+  socket.on("newIngredientSection", function (ingSec) {
     ingredientSections.push(ingSec)
-    
-    console.log(ingredientSections);
     fs.writeFile(INGREDIENT_SECTION_PATH, JSON.stringify(ingredientSections), function (err) {
       if (err) return console.log(err);
     });
@@ -93,6 +92,6 @@ io.on('connection', function(socket){
 });
 
 
-http.listen(8000, function() {
+http.listen(8000, function () {
   console.log('listening on localhost:8000');
 });
