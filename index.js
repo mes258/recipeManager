@@ -39,7 +39,27 @@ app.use('/static', express.static('node_modules'));
 
 var items = require(ITEM_FILE_PATH);
 var recipes = require(RECIPE_FILE_PATH);
-var ingredientSections = require(INGREDIENT_SECTION_PATH);
+var ingredientSections
+try {
+  ingredientSections = require(INGREDIENT_SECTION_PATH);
+} catch (e) {
+  if(e.toString().includes("Unexpected token [ in JSON")){
+    var fileText = "a";
+    fs.readFile(INGREDIENT_SECTION_PATH, (err, data) => { 
+      if (err) throw err; 
+      fileText = data.toString();
+      var temp1 = fileText.replace(/\]\]\[/g, "],[");
+      var temp2 = temp1.replace(/\]\[\[/g, "],[");
+      ingredientSections = temp2;
+
+      fs.writeFile(INGREDIENT_SECTION_PATH, ingredientSections, function (err) {
+        if (err) return console.log(err);
+      });
+    });
+  }else{
+    throw e;
+  }
+}
 
 io.on('connection', function(socket){
   socket.on("getLists", function(){

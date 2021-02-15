@@ -27,12 +27,17 @@
 
 #finalListTopBar{
   width: 100%;
+  height: 5%;
   margin: 1%;
 }
 
 #finalListTitle{
   width: 50%;
   float: left;
+}
+
+#finalList{
+  margin-top: 4%;
 }
 
 #downloadButtons{
