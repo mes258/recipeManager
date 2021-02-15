@@ -48,8 +48,8 @@
       </div>
       <div id="addNew">
         <p>Add new recipe: </p>
-        Name: <input id="newRecipeName" type="text"/>
-        Link: <input id="newRecipeLink" type="text"/>
+        Recipe URL: <input id="newRecipeLink" type="text" onchange="parseRecipeLink()"/>
+        Recipe Name: <input id="newRecipeName" type="text"/>
         Ingredients: <textarea id="newRecipeIng" name="text" rows="12" cols="50"></textarea>
         
         <button id="addNewRecipe">Add item</button>
@@ -64,6 +64,23 @@
     
 
   <script>
+    function parseRecipeLink(){
+      var url = document.getElementById("newRecipeLink").value;
+      if(url.includes("budgetbytes.com")){
+        //eg: https://www.budgetbytes.com/tangy-tomato-pasta/
+        var urlSections = url.split("/");
+        if(urlSections.length == 5){
+          var nameInUrl = urlSections[3];
+          var titleCase = nameInUrl.split('-').map(word => {
+              return word.slice(0, 1).toUpperCase() + word.slice(1)
+            }).join(' ')
+          var nameBox = document.getElementById("newRecipeName");
+          nameBox.value = titleCase;
+        }
+      }
+    }
+
+
     var finalList = [];
     
     function itemBoxChanged(item){
