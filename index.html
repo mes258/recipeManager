@@ -25,21 +25,30 @@
     <div id="main">
       <div id="lists">
         <div id="recipeList"> 
-          <h2>Recipes</h2>
+          <h2 style="margin-left: 1%;">Recipes</h2>
           <table id="recipeTable">
 
           </table>
         </div>
         <div id="itemList">
-          <h2>Items</h2>
+          <h2 style="margin-left: 1%;">Items</h2>
           <table id="itemTable">
 
           </table>
         </div>
       </div>
       <div id="finalListDiv">
-        <h3>The final list:</h3>
-        <button id="listTxt" onclick="downloadListTxt()">Download list txt</button>
+        <div id="finalListTopBar">
+          
+            <h2 id="finalListTitle">Current List</h2>
+            <div id="downloadButtons">
+              <button id="listTxt" onclick="downloadList('txt')">Download List as .txt</button>
+              <button id="listMd" onclick="downloadList('md')">Download List as .md</button>  
+            </div>
+            
+        </div>
+        
+        
         <ul id="finalList">
 
         </ul>
@@ -186,10 +195,26 @@
       return txtOutput;
     }
 
+    function formatMd(sectionInfo){
+      sortedBySection = sectionInfo.sortedBySection;
+      sections = sectionInfo.sections;
+      var txtOutput = "";
+      for(var i = 0; i < sections.length; ++i){
+        txtOutput += "## " + sections[i] + "\n";
+        var ingsInSection = sortedBySection[sections[i]]
+        for(var j = 0; j < ingsInSection.length; ++j){
+          txtOutput += "- " + ingsInSection[j].quantity + " " + ingsInSection[j].name + "\n";
+        }
+        txtOutput += "\n";
+      }
+
+      return txtOutput;
+    }
+
     //then download.
-    function downloadFile(text) {
+    function downloadFile(text, format) {
         var fileDate = new Date();
-        var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth()+ 1) + "-" + fileDate.getDate() + "List.txt";
+        var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth()+ 1) + "-" + fileDate.getDate() + "List." + format;
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
@@ -202,11 +227,11 @@
         document.body.removeChild(element);
     }
 
-    function downloadListTxt(){
+    function downloadList(format){
       var listWithRecipes = finalList;
       var ingList = [];
 
-      //first only have ingredients in the list.
+      //Step 1: only have ingredients in the list.
       //clean up this logic. 
       for(var i = 0; i < listWithRecipes.length; ++i){
         //this is not a great way to sort the items from recipes. maybe add types...
@@ -221,13 +246,18 @@
         }
       }
 
-      //second sort by sections:
+      //Step 2: sort by sections:
       var sectionInfo = sortBySections(ingList);
-      //third format (by txt)
-      var text = formatTxt(sectionInfo);
-      //finally, download
-      downloadFile(text);
+      //Step 3: format based on input type
+      var text = "";
+      if(format == "txt"){
+        text = formatTxt(sectionInfo);
+      }else if(format == "md"){
+        text = formatMd(sectionInfo);
+      }
 
+      //Step 4: create file and download
+      downloadFile(text, format);
     }
   </script>
   <script src="/socket.io/socket.io.js"></script>
