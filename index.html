@@ -1,17 +1,13 @@
 <html>
   <head>
-    <title>Grocery List</title>
+    <title>Recipe Manager</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="shortcut icon" href="#" />
   </head>
 
   <body>
     <div id="topBar">
-      <input type="file" id="itemListFile"></input>
-      <button id="loadLists">Load Lists</button>
-
-      <button id="listTxt" onclick="downloadListTxt()">Download list txt</button>
-
+      <h1 id="pageName">Recipe Manager</h1>
     </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -24,17 +20,18 @@
         </table>
         <button id="addSection">Add Section</button>
       </div>
-
     </div>
 
     <div id="main">
       <div id="lists">
         <div id="recipeList"> 
+          <h2>Recipes</h2>
           <table id="recipeTable">
 
           </table>
         </div>
         <div id="itemList">
+          <h2>Items</h2>
           <table id="itemTable">
 
           </table>
@@ -42,21 +39,39 @@
       </div>
       <div id="finalListDiv">
         <h3>The final list:</h3>
+        <button id="listTxt" onclick="downloadListTxt()">Download list txt</button>
         <ul id="finalList">
 
         </ul>
       </div>
       <div id="addNew">
-        <p>Add new recipe: </p>
-        Recipe URL: <input id="newRecipeLink" type="text" onchange="parseRecipeLink()"/>
-        Recipe Name: <input id="newRecipeName" type="text"/>
-        Ingredients: <textarea id="newRecipeIng" name="text" rows="12" cols="50"></textarea>
-        
-        <button id="addNewRecipe">Add item</button>
-        
-        <p>Add new item: </p>
-        Item: <input id="newItem" type="text"/>
-        Section: <div id="itemSectionDropdown"></div>
+        <h2>Add a new...</h2>
+
+        <h3>Recipe:</h3>
+        <strong>Recipe Link:</strong><br><input id="newRecipeLink" type="text" onchange="parseRecipeLink()" class="addNewInput"/>
+        <br>
+        <br>
+        <strong>Recipe Name:</strong><br><input id="newRecipeName" type="text" class="addNewInput"/>
+        <br>
+        <br>
+        <strong>Ingredients: </strong> 
+        <br>
+        <div class="addNewInput">Add one ingredient per line in the form: <br>
+        <em>1 yellow onion <br>
+        1/2 tsp garlic powder <br>
+        3 15oz. cans kidney beans<br></em>
+        <textarea id="newRecipeIng" name="text" rows="12" cols="50"></textarea>
+        </div>
+        <br>
+        <button id="addNewRecipe">Add Recipe</button>
+        <br>
+        <br>
+        <h3>Item:</h3>
+        <strong>Item Name:</strong><br><input id="newItem" type="text" class="addNewInput"/>
+        <br>
+        <br>
+        <strong>Section:</strong><div id="itemSectionDropdown"  class="addNewInput"></div>
+        <br>
         <button id="addNewItem">Add item</button>
 
       </div>

@@ -1,13 +1,20 @@
 #topBar{
   background-color: red;
   width: 100%;
-  height: 10%;
+  height: 5%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pageName{
+  margin-top: 1.5%;
 }
 
 #lists{
-  background-color: blue;
+  background-color: yellow;
   width: 65%;
-  height: 50%;
+  height: 55%;
   float: left;
 }
 
@@ -18,23 +25,31 @@
   float: left;
 }
 
-#itemList{
-  background-color: yellow;
-  width: 40%;
-  margin-left: 60%;
-}
 
 #recipeList{
-  background-color: orange;
+  /* background-color: orange; */
   width: 60%;
   float: left;
 }
 
+#itemList{
+  /* background-color: yellow; */
+  width: 40%;
+  margin-left: 60%;
+}
+
 #addNew{
   background-color: green;
-  width: 35%;
-  height: 80%;
+  width: 33%;
+  height: 95%;
   margin-left: 65%;
+  padding-left: 1%;
+  padding-top: 1px;
+}
+
+.addNewInput{
+  margin-left: 10px;
+  width: 80%; 
 }
 
 #main { 
