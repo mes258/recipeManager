@@ -62,10 +62,9 @@ io.on('connection', function(socket){
     });
   });
 
-  socket.on("newIngredientSection", function(ingSections){
-    ingSections.forEach(ingSec => {
-      ingredientSections.push([ingSec[0], ingSec[1]])
-    });
+  socket.on("newIngredientSection", function(ingSec){
+    ingredientSections.push(ingSec)
+    
     console.log(ingredientSections);
     fs.writeFile(INGREDIENT_SECTION_PATH, JSON.stringify(ingredientSections), function (err) {
       if (err) return console.log(err);

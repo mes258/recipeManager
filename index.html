@@ -13,9 +13,6 @@
       <button id="listTxt" onclick="downloadListTxt()">Download list txt</button>
 
     </div>
-
-    <button id="testButton">hi</button>
-
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
@@ -64,6 +61,7 @@
           <option value="Bakery">Bakery</option>
           <option value="Dry Goods">Dry Goods</option>
           <option value="Canned Goods">Canned Goods</option>
+          <option value="Condiments and Spices">Condiments and Spices</option>
           <option value="Meat">Meat</option>
           <option value="Beverages">Beverages</option>
           <option value="Produce">Produce</option>
@@ -149,7 +147,8 @@
           sections.push(ing.section);
         }
       }
-
+      console.log(sortedBySection);
+      console.log(sections)
       return {"sortedBySection": sortedBySection, "sections": sections};
     }
 

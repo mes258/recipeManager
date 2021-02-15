@@ -13,7 +13,7 @@ var items = []
 var ingredientSections = new Map();
 
 var measurements = [
-  "tsp", "Tbsp", "cup", "pint", "quart", "oz."
+  "tsp", "Tbsp", "cup", "pint", "quart", "oz.", "pinch", "lb.", "cups", "pints", "quarts"
 ]
 
 init();
@@ -125,13 +125,13 @@ addNewItem.onclick = function(){
         if(ingredientSections.get(newItem.name) != newItem.section){
           //Update the section
           alert("Updating the section for " + newItem.name + ". Old Section: " + ingredientSections.get(newItem.name) + "; New section: " + newItem.section + ".");
-          socket.emit("newIngredientSection", [[newItem.name, newItem.section]])
+          socket.emit("newIngredientSection", [newItem.name, newItem.section])
         }else{
           console.log("sections match for ingredient: " + newItem.name);
         }
       }else{
         ingredientSections.set(newItem.name, newItem.section);
-        socket.emit("newIngredientSection", [[newItem.name, newItem.section]])
+        socket.emit("newIngredientSection", [newItem.name, newItem.section])
       }
       
 
@@ -150,10 +150,18 @@ addNewRecipe.onclick = function(){
     var allIngList = allIng.split("\n");
     var newIngredients = [];
     var ingId = 0;
+    var recipeId = recipes.length;
+
+    var hasUnknownSection = false;
     (allIngList).forEach(str => {
       var ing = str.trim();
       var sections = ing.split(" ");
-      sections.pop();
+
+      //Remove the last part of the string since it is the price (for budget bytes recipes)
+      if(recipeLink.includes("budgetbytes.com")){
+        sections.pop();
+      }
+      
 
       //values for ingredients 
       var quantity, ingName, section;
@@ -168,8 +176,11 @@ addNewRecipe.onclick = function(){
       }
 
       ingName = sections.join(" ")
-      recipeId = recipes.length;
+      
       section = getItemSection(ingName, recipeId, ingId);
+      if(section == "Not Specified"){
+        hasUnknownSection = true;
+      }
 
       var newIng = new item(ingId, ingName, quantity, section);
       newIngredients.push(newIng);
@@ -181,21 +192,21 @@ addNewRecipe.onclick = function(){
 
     recipes.push(newRec)
     showRecipes()
-    socket.emit("newRecipe", newRec);
+
+    if(hasUnknownSection){
+      modal.style.display = "block";
+    }else{
+      socket.emit("newRecipe", newRec);
+    }
 
   }
 }
 
-tstbtn.onclick = function(){
-  var sec = getItemSection("test1");
-  console.log(sec);
-}
-
-var newSection = "INVALID"
 function getItemSection(name, recipeId, ingId){
   if(ingredientSections.has(name)){
     return ingredientSections.get(name);
   }else{
+    //This ingredent doesn't have a saved section. 
     var model_table = document.getElementById("modal-table");
     var model_table_row = document.createElement('tr');
 
@@ -208,6 +219,7 @@ function getItemSection(name, recipeId, ingId){
           <option value="Bakery">Bakery</option>\
           <option value="Dry Goods">Dry Goods</option>\
           <option value="Canned Goods">Canned Goods</option>\
+          <option value="Condiments and Spices">Condiments and Spices</option>\
           <option value="Meat">Meat</option>\
           <option value="Beverages">Beverages</option>\
           <option value="Produce">Produce</option>\
@@ -218,7 +230,6 @@ function getItemSection(name, recipeId, ingId){
         </select>';
     
     ingSecPicker.id = recipeId + "-" + ingId;
-    //modal.style.display = "block";
 
     model_table_row.appendChild(ingName);
     model_table_row.appendChild(ingSecPicker);
@@ -232,26 +243,42 @@ function getItemSection(name, recipeId, ingId){
 
 addSection.onclick = function(){
   //modal.style.display = "none";
-  var tbl = document.getElementById(model_table);
-  while(tbl.hasChildNodes){
-    var tr = tbl.firstChild();
+  var tbl = document.getElementById("modal-table");
+
+  var recipeId = -1;
+  while(tbl.children[0] != undefined){
+    var tr = tbl.children[0];
+    console.log(tr);
     var tds = tr.children;
-    var name = tds[0].value;
+    console.log(tds);
     var idStrs = tds[1].id.split('-');
-    var recipeId = idStrs[0];
-    var ingId = idStrs[0];
+    recipeId = idStrs[0];
+    var ingId = idStrs[1];
 
     var pickedSection = tds[1].firstChild.value;
+    
 
     for(var i = 0; i < recipes.length; ++i){
       if(recipes[i].id == recipeId){
         for(var j = 0; j < recipes[i].ingredients.length; j++){
-          recipes[i].ingredients[j].section = pickedSection;
+          if(recipes[i].ingredients[j].id == ingId){
+            recipes[i].ingredients[j].section = pickedSection;
+            //Save new section
+            socket.emit("newIngredientSection", [recipes[i].ingredients[j].name, pickedSection])
+          }
         }
       }
-    }//TODO: test this logic, add a way to send an update insead of re-adding the entire var. 
-
+    }
+    tbl.removeChild(tbl.children[0]);
   }
-  newSection = sectionName;
+
+  for(var i = 0; i < recipes.length; ++i){
+    if(recipes[i].id == recipeId){
+      socket.emit("newRecipe", recipes[i]);
+    }
+  }
+
+  console.log(recipes);
+  //TODO: test this logic, add a way to send an update insead of re-adding the entire var. 
   modal.style.display = "none";
 }
