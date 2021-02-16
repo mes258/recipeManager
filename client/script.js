@@ -19,7 +19,7 @@ var measurements = [
   "lb.", "lb",
   "kg.", "kg",
   "g.", "gram", "grams",
-  "pinch", "slices"
+  "pinch", "slices", "loaf", "cloves", "bunch"
 ]
 
 function getSectionDropdown(dropdownId) {
@@ -165,6 +165,8 @@ addNewItem.onclick = function () {
   }
 }
 
+var blackPepperNames = ["Freshly cracked black pepper", "freshly cracked pepper", "Freshly cracked pepper", "salt & pepper", "salt and pepper"];
+
 addNewRecipe.onclick = function () {
   var recipeName = document.getElementById("newRecipeName").value;
   var recipeLink = document.getElementById("newRecipeLink").value;
@@ -176,8 +178,20 @@ addNewRecipe.onclick = function () {
     var recipeId = recipes.length;
 
     var hasUnknownSection = false;
-    (allIngList).forEach(str => {
+    for (var i = 0; i < allIngList.length; i++) {
+      var str = allIngList[i];
       var ing = str.trim();
+      if (ing.includes("pepper") && !(ing.charAt[0] <= '9' && ing.charAt[0] >= '0')) {
+        if (ing.includes("salt")) {
+          console.log("salt")
+          allIngList.push("1 pinch salt (0.02)");
+        }
+        blackPepperNames.forEach(name => {
+          if (ing.includes(name)) {
+            ing = "1 pinch fresh black pepper (0.05)";
+          }
+        });
+      }
       var sections = ing.split(" ");
 
       //Remove the last part of the string since it is the price (for budget bytes recipes)
@@ -208,10 +222,9 @@ addNewRecipe.onclick = function () {
       var newIng = new item(ingId, ingName, quantity, section);
       newIngredients.push(newIng);
       ingId++;
-    });
+    }
 
     var newRec = new recipe(recipeId, recipeName, recipeLink, newIngredients);
-    console.log(newRec)
 
     recipes.push(newRec)
     showRecipes()
