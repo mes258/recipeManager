@@ -217,16 +217,16 @@
     //then download.
     function downloadFile(text, format) {
       var fileDate = new Date();
-      var filename = fileDate.getFullYear() + "-" + (fileDate.getMonth() + 1) + "-" + fileDate.getDate() + "List";
-      var fullFilename = filename + "." + format;
+      var dateStr = fileDate.getFullYear() + "-" + (fileDate.getMonth() + 1) + "-" + fileDate.getDate();
+      var filename = dateStr + "List." + format;
       var element = document.createElement('a');
       if (format == "txt") {
-        text = filename + text + "\n";
+        text = "Grocery List: " + dateStr + " \n " + text;
       } else if (format == "md") {
-        text = "# " + filename + text + "\n";
+        text = "# " + "Grocery List: " + dateStr + " \n" + text;
       }
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      element.setAttribute('download', fullFilename);
+      element.setAttribute('download', filename);
 
       element.style.display = 'none';
       document.body.appendChild(element);

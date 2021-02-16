@@ -17,14 +17,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}!`)
-// });
-
-// app.get('/socket.io/socket.io.js', function(req, res){
-//   res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js');
-// });
-
 app.get('/client/script.js', function (req, res) {
   res.sendFile(__dirname + '/client/script.js');
 });
@@ -63,7 +55,6 @@ try {
 
 io.on('connection', function (socket) {
   socket.on("getLists", function () {
-    console.log(items);
     socket.emit("updateItemList", items);
     socket.emit("updateRecipeList", recipes);
     socket.emit("updateIngredientSections", ingredientSections);
