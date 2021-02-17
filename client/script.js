@@ -19,7 +19,11 @@ var measurements = [
   "lb.", "lb",
   "kg.", "kg",
   "g.", "gram", "grams",
-  "pinch", "slices", "loaf", "cloves", "bunch"
+  "pinch", "pinches",
+  "slice", "slices",
+  "loaf", "loaves",
+  "clove", "cloves",
+  "bunch", "bunches"
 ]
 
 function getSectionDropdown(dropdownId) {
@@ -38,12 +42,14 @@ function getSectionDropdown(dropdownId) {
     <option value="Other">Other</option>\
   </select>';
 }
+
 init();
 
 function init() {
   socket.emit("getLists");
   var itemDropdown = document.getElementById("itemSectionDropdown");
   itemDropdown.innerHTML = getSectionDropdown("newItemSection");
+
 }
 
 socket.on("updateItemList", function (list) {
@@ -69,11 +75,12 @@ function recipe(id, name, url, ingredients) {
 }
 
 
-function item(id, name, quantity, section) {
+function item(id, name, quantity, section, measurement = "unit") {
   this.id = id;
   this.name = name;
   this.section = section;
   this.quantity = quantity;
+  this.measurement = measurement;
 }
 
 function showItems() {
@@ -114,6 +121,15 @@ function showRecipes() {
     var itemRow = document.createElement('tr');
 
     var recipeCheckbox = document.createElement('td');
+
+    //One time update: 
+    for (var j = 0; j < recipes[i].ingredients.length; j++) {
+      if (recipes[i].ingredients[j].measurement == undefined) {
+        console.log(recipes[i].ingredients[j])
+      }
+    }
+
+
     var tempRecipe = new recipe(recipes[i].id, recipes[i].name, recipes[i].url, recipes[i].ingredients);
     recipeCheckbox.innerHTML = '<input type="checkbox" id="recipeBox' + recipes[i].id + '" onchange=\'recipeBoxChanged(' + JSON.stringify(tempRecipe) + ')\'/>';
 
@@ -165,7 +181,7 @@ addNewItem.onclick = function () {
   }
 }
 
-var blackPepperNames = ["Freshly cracked black pepper", "freshly cracked pepper", "Freshly cracked pepper", "salt & pepper", "salt and pepper"];
+var blackPepperNames = ["Freshly cracked black pepper", "freshly cracked black pepper", "freshly cracked pepper", "Freshly cracked pepper", "salt & pepper", "salt and pepper"];
 
 addNewRecipe.onclick = function () {
   var recipeName = document.getElementById("newRecipeName").value;
@@ -181,6 +197,7 @@ addNewRecipe.onclick = function () {
     for (var i = 0; i < allIngList.length; i++) {
       var str = allIngList[i];
       var ing = str.trim();
+      //check for casual mentions of salt and pepper
       if (ing.includes("pepper") && !(ing.charAt[0] <= '9' && ing.charAt[0] >= '0')) {
         if (ing.includes("salt")) {
           console.log("salt")
@@ -201,14 +218,18 @@ addNewRecipe.onclick = function () {
 
 
       //values for ingredients 
-      var quantity, ingName, section;
+      var quantity, measurement, ingName, section;
       //determine quantity
       if (measurements.includes(sections[1])) {
-        quantity = sections[0] + " " + sections[1];
+        //eg: 3 tsp butter
+        quantity = sections[0];
+        measurement = sections[1];
         sections.shift();
         sections.shift();
       } else {
+        //eg: 3 red onions
         quantity = sections[0];
+        measurement = "unit";
         sections.shift();
       }
 
@@ -219,7 +240,7 @@ addNewRecipe.onclick = function () {
         hasUnknownSection = true;
       }
 
-      var newIng = new item(ingId, ingName, quantity, section);
+      var newIng = new item(ingId, ingName, quantity, section, measurement);
       newIngredients.push(newIng);
       ingId++;
     }
@@ -242,7 +263,7 @@ function getItemSection(name, recipeId, ingId) {
   if (ingredientSections.has(name)) {
     return ingredientSections.get(name);
   } else {
-    //This ingredent doesn't have a saved section. 
+    //This ingredent doesn't have a saved section so add it to the model that shows after all ingredients are processed.
     var model_table = document.getElementById("modal-table");
     var model_table_row = document.createElement('tr');
 

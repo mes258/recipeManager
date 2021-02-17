@@ -145,7 +145,11 @@
         for (i = 0; i < numberOfIng; ++i) {
 
           var listItem = document.createElement('li');
-          listItem.innerHTML = recipe.ingredients[i].quantity + " " + recipe.ingredients[i].name;
+          if (recipe.ingredients[i].measurement != "unit") {
+            listItem.innerHTML = recipe.ingredients[i].quantity + " " + recipe.ingredients[i].measurement + " " + recipe.ingredients[i].name;
+          } else {
+            listItem.innerHTML = recipe.ingredients[i].quantity + " " + recipe.ingredients[i].name;
+          }
           listItem.className = "recipe" + recipe.id + "ing";
 
           htmlList.appendChild(listItem);
