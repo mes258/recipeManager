@@ -187,6 +187,41 @@
       return { "sortedBySection": sortedBySection, "sections": sections };
     }
 
+    function combineIngredients(sectionInfo) {
+      sortedBySection = sectionInfo.sortedBySection;
+      sections = sectionInfo.sections;
+      var newSortedBySect = {};
+      for (var i = 0; i < sections.length; ++i) {
+        var ingsInSection = sortedBySection[sections[i]]
+        var newIngList = [];
+
+        for (var j = 0; j < ingsInSection.length; ++j) {
+          //next ing: 
+          var currentIng = ingsInSection[j];
+          var addedToNew = false;
+          newIngList.forEach(ing => {
+            if (ing.name == currentIng.name) {
+              if (ing.measurement == currentIng.measurement) {
+                //todo: write prarseValue to convert "1/2" to 0.5, etc
+                //todo: write unparseValue to convert 0.5 to "1/2", etc
+                ing.quantity = unparseValue(parseValue(ing.quantity) + parseValue(currentIng.quantity));
+              } else {
+                ing.quantity = convertMeasurementAndCombine(ing.quantity, currentIng.quantity)
+              }
+              addedToNew = true;
+            }
+          });
+
+          if (!addedToNew) {
+            newIngList.push(currentIng)
+          }
+        }
+
+        newSortedBySect[section] = newIngList;
+
+      }
+    }
+
     function formatTxt(sectionInfo) {
       sortedBySection = sectionInfo.sortedBySection;
       sections = sectionInfo.sections;
@@ -261,6 +296,9 @@
 
       //Step 2: sort by sections:
       var sectionInfo = sortBySections(ingList);
+
+      //Step 2.5: combine similar ingredients:
+      //sectionInfo = combineIngredients(sectionInfo);
       //Step 3: format based on input type
       var text = "";
       if (format == "txt") {
@@ -271,6 +309,21 @@
 
       //Step 4: create file and download
       downloadFile(text, format);
+
+
+
+      //Util functions: 
+      function parseValue(strVal) {
+
+      }
+
+      function unparseValue(val) {
+
+      }
+
+      function convertMeasurementAndCombine(strVal1, strVal2) {
+
+      }
     }
   </script>
   <script src="/socket.io/socket.io.js"></script>
