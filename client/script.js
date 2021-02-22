@@ -14,7 +14,7 @@ var ingredientSections = new Map();
 
 var measurements = [
   "tsp", "Tbsp",
-  "cup", "cups", "pint", "pints", "quart", "quarts",
+  "cup", "cups", "pint", "pints", "quart", "quarts", "gal", "gallon", "gallons",
   "oz.", "oz",
   "lb.", "lb",
   "kg.", "kg",
@@ -219,21 +219,27 @@ addNewRecipe.onclick = function () {
 
       //values for ingredients 
       var quantity, measurement, ingName, section;
+
+      var recipeQuantity = sections[0];
       //determine quantity
       if (measurements.includes(sections[1])) {
         //eg: 3 tsp butter
-        quantity = sections[0];
+        quantity = parseValue(recipeQuantity);
         measurement = sections[1];
         sections.shift();
         sections.shift();
       } else {
         //eg: 3 red onions
-        quantity = sections[0];
+        quantity = parseValue(recipeQuantity);
         measurement = "unit";
         sections.shift();
       }
 
       ingName = sections.join(" ")
+
+      while (quantity == -1) {
+        quantity = parseValue(prompt(" We are having trouble determining the quantity of " + ingName + ". \n The quantity from the recipe is: " + recipeQuantity + ". \n Please enter the numeric quantity below: ", "1"));
+      }
 
       section = getItemSection(ingName, recipeId, ingId);
       if (section == "Not Specified") {
@@ -326,4 +332,23 @@ addSection.onclick = function () {
   console.log(recipes);
   //TODO: test this logic, add a way to send an update insead of re-adding the entire var. 
   modal.style.display = "none";
+}
+
+//Util functions: 
+//Convert from "1/2" or "7/8" to 0.5 and 0.875, etc
+function parseValue(strVal) {
+  if (strVal == null || strVal == undefined) {
+    return -1;
+  }
+  if (strVal.includes("/")) {
+    var fractionVals = strVal.split("/");
+    var val = parseFloat(fractionVals[0]) / parseFloat(fractionVals[1]);
+    return val;
+  }
+  var parsedFloat = parseFloat(strVal);
+  if (isNaN(parsedFloat)) {
+    return -1;
+  } else {
+    return parsedFloat;
+  }
 }

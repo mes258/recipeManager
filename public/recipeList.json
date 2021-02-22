@@ -1,111 +1,258 @@
 [
   {
     "id": 0,
-    "name": "Spinach White Bean Enchiladas Pepper Jack Sauce",
-    "url": "https://www.budgetbytes.com/spinach-white-bean-enchiladas-pepper-jack-sauce/",
+    "name": "Sheet Pan Bbq Meatloaf Dinner",
+    "url": "https://www.budgetbytes.com/sheet-pan-bbq-meatloaf-dinner/",
     "ingredients": [
       {
         "id": 0,
-        "name": "6-inch corn tortillas",
-        "section": "Bakery",
-        "quantity": "12",
+        "name": "sweet potato (about 1 lb.)",
+        "section": "Produce",
+        "quantity": 1,
         "measurement": "unit"
       },
       {
         "id": 1,
-        "name": "pepper jack cheese",
-        "section": "Dairy",
-        "quantity": "4",
-        "measurement": "oz"
+        "name": "frozen broccoli florets",
+        "section": "Frozen",
+        "quantity": 12,
+        "measurement": "oz."
       },
       {
         "id": 2,
-        "name": "frozen chopped spinach",
-        "section": "Frozen",
-        "quantity": "1/2",
-        "measurement": "lb"
+        "name": "olive oil",
+        "section": "Condiments and Spices",
+        "quantity": 2,
+        "measurement": "Tbsp"
       },
       {
         "id": 3,
-        "name": "can white beans*",
-        "section": "Canned Goods",
-        "quantity": "15",
-        "measurement": "oz"
-      },
-      {
-        "id": 4,
-        "name": "garlic powder",
+        "name": "seasoning salt*",
         "section": "Condiments and Spices",
-        "quantity": "1/4",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
-        "id": 5,
-        "name": "cumin",
+        "id": 4,
+        "name": "fresh black pepper",
         "section": "Condiments and Spices",
-        "quantity": "1/2",
+        "quantity": 1,
+        "measurement": "pinch"
+      },
+      {
+        "id": 5,
+        "name": "ground beef",
+        "section": "Meat",
+        "quantity": 0.5,
+        "measurement": "lb."
+      },
+      {
+        "id": 6,
+        "name": "large egg",
+        "section": "Dairy",
+        "quantity": 1,
+        "measurement": "unit"
+      },
+      {
+        "id": 7,
+        "name": "bread crumbs",
+        "section": "Dry Goods",
+        "quantity": 2,
+        "measurement": "Tbsp"
+      },
+      {
+        "id": 8,
+        "name": "BBQ sauce, divided",
+        "section": "Condiments and Spices",
+        "quantity": 3,
+        "measurement": "Tbsp"
+      },
+      {
+        "id": 9,
+        "name": "smoked paprika",
+        "section": "Condiments and Spices",
+        "quantity": 0.25,
+        "measurement": "tsp"
+      },
+      {
+        "id": 10,
+        "name": "garlic powder",
+        "section": "Condiments and Spices",
+        "quantity": 0.125,
+        "measurement": "tsp"
+      },
+      {
+        "id": 11,
+        "name": "salt",
+        "section": "Condiments and Spices",
+        "quantity": 0.25,
+        "measurement": "tsp"
+      },
+      {
+        "id": 12,
+        "name": "salt",
+        "section": "Condiments and Spices",
+        "quantity": 1,
+        "measurement": "pinch"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Beef Kofta Meatballs With Roasted Vegetables",
+    "url": "https://www.budgetbytes.com/beef-kofta-meatballs-with-roasted-vegetables/",
+    "ingredients": [
+      {
+        "id": 0,
+        "name": "zucchini",
+        "section": "Produce",
+        "quantity": 1,
+        "measurement": "unit"
+      },
+      {
+        "id": 1,
+        "name": "yellow squash",
+        "section": "Produce",
+        "quantity": 1,
+        "measurement": "unit"
+      },
+      {
+        "id": 2,
+        "name": "grape tomatoes",
+        "section": "Produce",
+        "quantity": 1,
+        "measurement": "pint"
+      },
+      {
+        "id": 3,
+        "name": "red onion",
+        "section": "Produce",
+        "quantity": 0.75,
+        "measurement": "unit"
+      },
+      {
+        "id": 4,
+        "name": "olive oil",
+        "section": "Condiments and Spices",
+        "quantity": 2,
+        "measurement": "Tbsp"
+      },
+      {
+        "id": 5,
+        "name": "garlic powder",
+        "section": "Condiments and Spices",
+        "quantity": 0.25,
         "measurement": "tsp"
       },
       {
         "id": 6,
-        "name": "salt",
+        "name": "dried oregano",
         "section": "Condiments and Spices",
-        "quantity": "1/4",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
         "id": 7,
         "name": "fresh black pepper",
         "section": "Condiments and Spices",
-        "quantity": "1",
+        "quantity": 1,
         "measurement": "pinch"
       },
       {
         "id": 8,
-        "name": "butter",
-        "section": "Dairy",
-        "quantity": "1",
-        "measurement": "Tbsp"
+        "name": "ground beef",
+        "section": "Meat",
+        "quantity": 1,
+        "measurement": "lb."
       },
       {
         "id": 9,
         "name": "garlic, minced",
         "section": "Produce",
-        "quantity": "1",
-        "measurement": "clove"
+        "quantity": 2,
+        "measurement": "cloves"
       },
       {
         "id": 10,
-        "name": "cream cheese",
-        "section": "Dairy",
-        "quantity": "4",
-        "measurement": "oz"
+        "name": "red onion, minced",
+        "section": "Produce",
+        "quantity": 0.25,
+        "measurement": "unit"
       },
       {
         "id": 11,
-        "name": "whole milk",
-        "section": "Dairy",
-        "quantity": "3/4",
-        "measurement": "cup"
+        "name": "parsley, chopped",
+        "section": "Produce",
+        "quantity": 2,
+        "measurement": "Tbsp"
       },
       {
         "id": 12,
-        "name": "salt",
+        "name": "dried oregano",
         "section": "Condiments and Spices",
-        "quantity": "1/4",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
         "id": 13,
-        "name": "pepper jack cheese",
-        "section": "Dairy",
-        "quantity": "4",
-        "measurement": "oz"
+        "name": "cumin",
+        "section": "Condiments and Spices",
+        "quantity": 0.25,
+        "measurement": "tsp"
+      },
+      {
+        "id": 14,
+        "name": "cinnamon",
+        "section": "Condiments and Spices",
+        "quantity": 0.125,
+        "measurement": "tsp"
+      },
+      {
+        "id": 15,
+        "name": "cloves",
+        "section": "Produce",
+        "quantity": 0.125,
+        "measurement": "tsp"
+      },
+      {
+        "id": 16,
+        "name": "salt",
+        "section": "Condiments and Spices",
+        "quantity": 0.75,
+        "measurement": "tsp"
+      },
+      {
+        "id": 17,
+        "name": "cooking oil",
+        "section": "Condiments and Spices",
+        "quantity": 2,
+        "measurement": "Tbsp"
+      },
+      {
+        "id": 18,
+        "name": "cooked rice",
+        "section": "Dry Goods",
+        "quantity": 4,
+        "measurement": "cups"
+      },
+      {
+        "id": 19,
+        "name": "parsley, chopped, for garnish",
+        "section": "Produce",
+        "quantity": 2,
+        "measurement": "Tbsp"
+      },
+      {
+        "id": 20,
+        "name": "salt",
+        "section": "Condiments and Spices",
+        "quantity": 1,
+        "measurement": "pinch"
       }
     ]
   },
   {
-    "id": 1,
+    "id": 2,
     "name": "Tangy Tomato Pasta",
     "url": "https://www.budgetbytes.com/tangy-tomato-pasta/",
     "ingredients": [
@@ -113,91 +260,91 @@
         "id": 0,
         "name": "thin spaghetti",
         "section": "Dry Goods",
-        "quantity": "8",
+        "quantity": 8,
         "measurement": "oz."
       },
       {
         "id": 1,
         "name": "olive oil",
         "section": "Condiments and Spices",
-        "quantity": "3",
+        "quantity": 3,
         "measurement": "Tbsp"
       },
       {
         "id": 2,
         "name": "garlic",
         "section": "Produce",
-        "quantity": "1",
+        "quantity": 1,
         "measurement": "clove"
       },
       {
         "id": 3,
         "name": "dried basil",
         "section": "Condiments and Spices",
-        "quantity": "1/2",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
         "id": 4,
         "name": "dried oregano",
         "section": "Condiments and Spices",
-        "quantity": "1/2",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
         "id": 5,
         "name": "salt",
         "section": "Condiments and Spices",
-        "quantity": "1/2",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
         "id": 6,
         "name": "dried rosemary",
         "section": "Condiments and Spices",
-        "quantity": "1/4",
+        "quantity": 0.25,
         "measurement": "tsp"
       },
       {
         "id": 7,
         "name": "dried thyme",
         "section": "Condiments and Spices",
-        "quantity": "1/4",
+        "quantity": 0.25,
         "measurement": "tsp"
       },
       {
         "id": 8,
         "name": "crushed red pepper",
         "section": "Dry Goods",
-        "quantity": "1",
+        "quantity": 1,
         "measurement": "pinch"
       },
       {
         "id": 9,
         "name": "fresh black pepper",
         "section": "Condiments and Spices",
-        "quantity": "1",
+        "quantity": 1,
         "measurement": "pinch"
       },
       {
         "id": 10,
         "name": "tomato paste",
         "section": "Dairy",
-        "quantity": "3",
+        "quantity": 3,
         "measurement": "oz."
       },
       {
         "id": 11,
         "name": "honey",
         "section": "Produce",
-        "quantity": "1/2",
+        "quantity": 0.5,
         "measurement": "tsp"
       },
       {
         "id": 12,
         "name": "feta cheese",
         "section": "Produce",
-        "quantity": "3",
+        "quantity": 3,
         "measurement": "oz."
       }
     ]
