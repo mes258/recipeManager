@@ -23,7 +23,8 @@ var measurements = [
   "slice", "slices",
   "loaf", "loaves",
   "clove", "cloves",
-  "bunch", "bunches"
+  "bunch", "bunches",
+  "handful", "handful"
 ]
 
 function getSectionDropdown(dropdownId) {

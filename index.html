@@ -239,7 +239,7 @@
         txtOutput += "\n" + sections[i] + "\n";
         var ingsInSection = sortedBySection[sections[i]]
         for (var j = 0; j < ingsInSection.length; ++j) {
-          txtOutput += "\u2022" + ingsInSection[j].quantity + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
+          txtOutput += "\u2022" + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
         }
       }
 
@@ -254,7 +254,7 @@
         txtOutput += "## " + sections[i] + "\n";
         var ingsInSection = sortedBySection[sections[i]]
         for (var j = 0; j < ingsInSection.length; ++j) {
-          txtOutput += "- " + ingsInSection[j].quantity + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
+          txtOutput += "- " + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
         }
         txtOutput += "\n";
       }
@@ -318,20 +318,6 @@
 
       //Step 4: create file and download
       downloadFile(text, format);
-
-    }
-    testParse();
-
-    function testParse() {
-
-      console.log(unparseValue(0.5));
-      console.log(unparseValue(0.125));
-      console.log(unparseValue(0.25));
-      console.log(unparseValue(1.5));
-      console.log(unparseValue(3));
-      console.log(unparseValue(4.875));
-      console.log(unparseValue(0));
-      console.log(unparseValue(4.875));
 
     }
 
