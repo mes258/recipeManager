@@ -10,7 +10,6 @@
   <div id="topBar">
     <h1 id="pageName">Recipe Manager</h1>
   </div>
-  <input type="checkbox" id="testVals" onchange="testParse()" />
   <!-- The Modal -->
   <div id="myModal" class="modal">
 
@@ -239,7 +238,11 @@
         txtOutput += "\n" + sections[i] + "\n";
         var ingsInSection = sortedBySection[sections[i]]
         for (var j = 0; j < ingsInSection.length; ++j) {
-          txtOutput += "\u2022" + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
+          if (ingsInSection[j].measurement == "unit") {
+            txtOutput += "\u2022" + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].name + "\n";
+          } else {
+            txtOutput += "\u2022" + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
+          }
         }
       }
 
@@ -254,7 +257,11 @@
         txtOutput += "## " + sections[i] + "\n";
         var ingsInSection = sortedBySection[sections[i]]
         for (var j = 0; j < ingsInSection.length; ++j) {
-          txtOutput += "- " + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
+          if (ingsInSection[j].measurement == "unit") {
+            txtOutput += "- " + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].name + "\n";
+          } else {
+            txtOutput += "- " + unparseValue(ingsInSection[j].quantity) + " " + ingsInSection[j].measurement + " " + ingsInSection[j].name + "\n";
+          }
         }
         txtOutput += "\n";
       }
