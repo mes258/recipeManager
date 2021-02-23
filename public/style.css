@@ -14,14 +14,14 @@
 #lists{
   background-color: yellow;
   width: 65%;
-  height: 65%;
+  height: 55%;
   float: left;
 }
 
 #finalListDiv{
   background-color: magenta;
   width: 65%;
-  height: 30%;
+  height: 40%;
   float: left;
 }
 
@@ -50,12 +50,16 @@
   /* background-color: orange; */
   width: 60%;
   float: left;
+  height: 100%;
+  overflow: auto;
 }
 
 #itemList{
   /* background-color: yellow; */
   width: 40%;
   margin-left: 60%;
+  height: 100%;
+  overflow: auto;
 }
 
 #addNew{
