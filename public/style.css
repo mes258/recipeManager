@@ -14,14 +14,14 @@
 #lists{
   background-color: yellow;
   width: 65%;
-  height: 55%;
+  height: 65%;
   float: left;
 }
 
 #finalListDiv{
   background-color: magenta;
   width: 65%;
-  height: 40%;
+  height: 30%;
   float: left;
 }
 
