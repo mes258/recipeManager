@@ -96,7 +96,7 @@
       if (url.includes("budgetbytes.com")) {
         //eg: https://www.budgetbytes.com/tangy-tomato-pasta/
         var urlSections = url.split("/");
-        if (urlSections.length == 5) {
+        if (urlSections.length == 5 || urlSections.length == 4) {
           var nameInUrl = urlSections[3];
           var titleCase = nameInUrl.split('-').map(word => {
             return word.slice(0, 1).toUpperCase() + word.slice(1)
@@ -246,6 +246,11 @@
         }
       }
 
+      finalList.forEach(rec => {
+        if (rec.url != undefined)
+          txtOutput += rec.name + " (" + rec.url + ") \n"
+      });
+
       return txtOutput;
     }
 
@@ -265,6 +270,11 @@
         }
         txtOutput += "\n";
       }
+
+      finalList.forEach(rec => {
+        if (rec.url != undefined)
+          txtOutput += "[" + rec.name + "](" + rec.url + ") \n"
+      });
 
       return txtOutput;
     }
@@ -410,8 +420,6 @@
     ]
 
     function areEqual(m1, m2, firstCall = true) {
-      console.log("m1: " + m1)
-      console.log("m2: " + m2)
       //Applies to both names and measurements
       if (m1 == m2 || m1.trim() == m2.trim() || m1 + "s" == m2 || m2 + "s" == m1 || m1 + "es" == m2 || m2 + "es" == m1 || m1 + "." == m2 || m2 + "." == m1) {
         return true;
