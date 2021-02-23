@@ -46,6 +46,12 @@
   margin-top: 1%;
 }
 
+ul {
+  columns: 4;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
 #recipeList{
   /* background-color: orange; */
   width: 60%;
