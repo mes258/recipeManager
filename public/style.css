@@ -7,7 +7,27 @@ body {
   height: 5%;
   display:flex;
   align-items: center;
-  justify-content: center;
+}
+
+#topBarTable{
+  width: 100%;
+}
+
+#topBarTableRow{
+  width: 100%;
+
+}
+
+.topBarTableCell{
+  width: 33%;
+}
+
+#topBarCellCenter{
+  text-align: center;
+}
+
+#topBarCellRight{
+  float: right;
 }
 
 #pageName{

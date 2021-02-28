@@ -4,18 +4,46 @@
   <title>Recipe Manager</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="shortcut icon" href="#" />
+  <script type="module" src="./client/script.js"></script>
+  <!-- <script type="text/javascript" src="./client/script.js"></script> -->
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./client/socketScript.js"></script>
 </head>
 
 <body>
   <div id="topBar">
-    <h1 id="pageName">Recipe Manager</h1>
+    <table id="topBarTable">
+      <tr id="topBarTableRow">
+        <td class="topBarTableCell"></td>
+        <td class="topBarTableCell" id="topBarCellCenter">
+          <h1 id="pageName">Recipe Manager</h1>
+        </td>
+        <td class="topBarTableCell" id="topBarCellRight"><button id="showAssumedIngModal"> Assumed Ingredients </button>
+        </td>
+      </tr>
+    </table>
   </div>
-  <!-- The Modal -->
-  <div id="myModal" class="modal">
 
+  <!-- The new recipe ingredient -->
+  <div id="assumedIngModal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
-      <p id="modal-message">The following ingredients do not have saved sections. Please specify the section below.</p>
+      <p>The following ingredients will not be shown in the downloaded list.</p>
+      <table id="assumedIngModalTable">
+
+      </table>
+      <p>Add new items as a comma seperated list</p>
+      <input type="text" id="newAssumedIngList" />
+      <button id="addAssumedIngs">Add New Assumed Ingredients</button>
+    </div>
+  </div>
+
+  <!-- The new recipe ingredient -->
+  <div id="newRecipeIngsModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <p>The following ingredients do not have saved sections. Please specify the section below.</p>
       <table id="modal-table">
 
       </table>
@@ -441,9 +469,6 @@
       return false;
     }
   </script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./client/socketScript.js"></script>
-  <script type="module" src="./client/script.js"></script>
 </body>
 
 </html>

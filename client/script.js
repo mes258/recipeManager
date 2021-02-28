@@ -2,16 +2,20 @@ var itemListFile = document.getElementById("itemListFile");
 var recipieListFile = document.getElementById("recipieListFile");
 var addNewRecipe = document.getElementById("addNewRecipe");
 var addNewItem = document.getElementById("addNewItem");
-var modal = document.getElementById("myModal");
+var addNewAssumedIng = document.getElementById("showAssumedIngModal");
+var newRecipeIngModal = document.getElementById("newRecipeIngsModal");
+var assumedIngModal = document.getElementById("assumedIngModal");
 var tstbtn = document.getElementById("testButton");
 var sectionPicker = document.getElementById("sectionPicker");
 var addSection = document.getElementById("addSection");
+var addAssumedIngs = document.getElementById("addAssumedIngs");
 
 
 var recipes = []
 var items = []
 var ingredientSections = new Map();
 var itemSectionInfo = {};
+var assumedIngredients = {};
 
 var measurements = [
   "tsp", "Tbsp",
@@ -67,6 +71,10 @@ socket.on("updateRecipeList", function (list) {
 
 socket.on("updateIngredientSections", function (map) {
   ingredientSections = new Map(map);
+});
+
+socket.on("updateAssumedIngredients", function (list) {
+  assumedIngredients = list;
 });
 
 
@@ -260,13 +268,56 @@ addNewRecipe.onclick = function () {
     showRecipes()
 
     if (hasUnknownSection) {
-      modal.style.display = "block";
+      newRecipeIngModal.style.display = "block";
     } else {
       socket.emit("newRecipe", newRec);
     }
 
   }
 }
+
+addNewAssumedIng.onclick = function () {
+  var tbl = document.getElementById("assumedIngModalTable");
+  assumedIngredients.forEach(ing => {
+    var model_table_row = document.createElement('tr');
+    var ingName = document.createElement('td');
+    //var deleteButton = document.createElement('td');
+
+    ingName.innerHTML = ing.name;
+
+    //deleteButton.innerHTML = "<button id='deleteAssumedIng' onClick='deleteAssumedIngs(" + ing.id + ")'>Remove from List</button>"
+
+    model_table_row.appendChild(ingName);
+    //model_table_row.appendChild(deleteButton);
+    tbl.appendChild(model_table_row);
+  });
+
+  assumedIngModal.style.display = "block";
+
+}
+
+//This is not efficient. Instead need to populate the modal once at the start and only add/remove items when needed. 
+addAssumedIngs.onclick = function () {
+  assumedIngModal.style.display = "none";
+  var list = document.getElementById("newAssumedIngList").value;
+  var items = list.split(",");
+  items.forEach(ing => {
+    ing = ing.trim();
+    var assumedIng = { "id": assumedIngredients.length, "name": ing }
+    assumedIngredients.push(assumedIng);
+    socket.emit("newAssumedIngredient", assumedIng);
+  });
+
+  var tbl = document.getElementById("assumedIngModalTable");
+
+  while (tbl.children[0] != undefined) {
+    tbl.removeChild(tbl.children[0]);
+  }
+}
+// deleteAssumedIng.onclick = function () {
+//   console.log("deleted ing");
+//   console.log("val: " + this.name);
+// }
 
 function getItemSection(name, recipeId, ingId) {
   if (ingredientSections.has(name)) {
@@ -301,9 +352,7 @@ addSection.onclick = function () {
   var recipeId = -1;
   while (tbl.children[0] != undefined) {
     var tr = tbl.children[0];
-    console.log(tr);
     var tds = tr.children;
-    console.log(tds);
     var idStrs = tds[1].id.split('-');
     recipeId = idStrs[0];
     var ingId = idStrs[1];
@@ -334,7 +383,7 @@ addSection.onclick = function () {
 
   console.log(recipes);
   //TODO: test this logic, add a way to send an update insead of re-adding the entire var. 
-  modal.style.display = "none";
+  newRecipeIngModal.style.display = "none";
 }
 
 //Util functions: 

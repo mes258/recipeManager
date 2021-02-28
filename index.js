@@ -11,6 +11,7 @@ var io = sio(http);
 var ITEM_FILE_PATH = './public/itemList.json';
 var RECIPE_FILE_PATH = './public/recipeList.json';
 var INGREDIENT_SECTION_PATH = './public/ingredientSections.json';
+var ASSUMED_INGREDIENT_PATH = './public/assumedIngredients.json';
 
 
 app.get('/', (req, res) => {
@@ -31,7 +32,8 @@ app.use('/static', express.static('node_modules'));
 
 var items = require(ITEM_FILE_PATH);
 var recipes = require(RECIPE_FILE_PATH);
-var ingredientSections
+var ingredientSections;
+var assumedIngredients = require(ASSUMED_INGREDIENT_PATH);
 try {
   ingredientSections = require(INGREDIENT_SECTION_PATH);
 } catch (e) {
@@ -58,6 +60,7 @@ io.on('connection', function (socket) {
     socket.emit("updateItemList", items);
     socket.emit("updateRecipeList", recipes);
     socket.emit("updateIngredientSections", ingredientSections);
+    socket.emit("updateAssumedIngredients", assumedIngredients);
   });
 
   socket.on("newItem", function (item) {
@@ -77,6 +80,13 @@ io.on('connection', function (socket) {
   socket.on("newIngredientSection", function (ingSec) {
     ingredientSections.push(ingSec)
     fs.writeFile(INGREDIENT_SECTION_PATH, JSON.stringify(ingredientSections), function (err) {
+      if (err) return console.log(err);
+    });
+  });
+
+  socket.on("newAssumedIngredient", function (ing) {
+    assumedIngredients.push(ing)
+    fs.writeFile(ASSUMED_INGREDIENT_PATH, JSON.stringify(assumedIngredients), function (err) {
       if (err) return console.log(err);
     });
   });
