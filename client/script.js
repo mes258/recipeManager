@@ -11,6 +11,7 @@ var addSection = document.getElementById("addSection");
 var recipes = []
 var items = []
 var ingredientSections = new Map();
+var itemSectionInfo = {};
 
 var measurements = [
   "tsp", "Tbsp",
@@ -55,6 +56,7 @@ function init() {
 
 socket.on("updateItemList", function (list) {
   items = list;
+  //itemSectionInfo = sortItemsBySections(items);
   showItems();
 });
 
@@ -352,4 +354,26 @@ function parseValue(strVal) {
   } else {
     return parsedFloat;
   }
+}
+
+
+//Not in use right now. 
+function sortItemsBySections(ingList) {
+  //TODO: format by sections, combine ingredients
+  //first sort by sections: 
+  var sortedBySection = {};
+  sections = [];
+  for (var i = 0; i < ingList.length; ++i) {
+    var ing = ingList[i];
+    if (sortedBySection[ing.section] != undefined) {
+      sortedBySection[ing.section].push(ing);
+    } else {
+      sortedBySection[ing.section] = [];
+      sortedBySection[ing.section].push(ing);
+      sections.push(ing.section);
+    }
+  }
+  console.log(sortedBySection);
+  console.log(sections)
+  return { "sortedBySection": sortedBySection, "sections": sections };
 }
