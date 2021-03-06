@@ -90,8 +90,25 @@ socket.on("updateAssumedIngredients", function (list) {
     //model_table_row.appendChild(deleteButton);
     tbl.appendChild(model_table_row);
   });
+  updateExportButtons();
 });
 
+function updateExportButtons() {
+  var buttonDiv = document.getElementById("downloadButtons");
+  while (buttonDiv.children[0] != undefined) {
+    buttonDiv.removeChild(buttonDiv.children[0])
+  }
+  var btn1 = document.createElement("div");
+  console.log(JSON.stringify(assumedIngredients))
+  btn1.innerHTML = '<button id="listTxt" onclick=\'downloadList("txt", ' + JSON.stringify(assumedIngredients) + ')\'>Download List as .txt</button>';
+
+  var btn2 = document.createElement("div");
+  btn2.innerHTML = '<button id="listMd" onclick=\'downloadList("md", ' + JSON.stringify(assumedIngredients) + ')\'>Download List as .md</button>';
+
+  buttonDiv.appendChild(btn1);
+  buttonDiv.appendChild(btn2);
+
+}
 
 function recipe(id, name, url, ingredients) {
   this.id = id;
@@ -299,7 +316,6 @@ addNewAssumedIng.onclick = function () {
   assumedIngModal.style.display = "block";
 }
 
-//This is not efficient. Instead need to populate the modal once at the start and only add/remove items when needed. 
 addAssumedIngs.onclick = function () {
   assumedIngModal.style.display = "none";
   var list = document.getElementById("newAssumedIngList").value;
@@ -320,6 +336,7 @@ addAssumedIngs.onclick = function () {
 
   });
   document.getElementById("newAssumedIngList").value = "";
+  updateExportButtons();
 }
 
 function getItemSection(name, recipeId, ingId) {

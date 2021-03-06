@@ -72,8 +72,7 @@
 
         <h2 id="finalListTitle">Current List</h2>
         <div id="downloadButtons">
-          <button id="listTxt" onclick="downloadList('txt')">Download List as .txt</button>
-          <button id="listMd" onclick="downloadList('md')">Download List as .md</button>
+
         </div>
 
       </div>
@@ -120,6 +119,7 @@
 
 
   <script>
+
     function parseRecipeLink() {
       var url = document.getElementById("newRecipeLink").value;
       if (url.includes("budgetbytes.com")) {
@@ -329,9 +329,15 @@
       document.body.removeChild(element);
     }
 
-    function downloadList(format) {
+    function downloadList(format, assumedIngredients) {
+      var assumedIngList = [];
+      assumedIngredients.forEach(e => {
+        assumedIngList.push(e.name);
+      });
+
       var listWithRecipes = finalList;
       var ingList = [];
+      var excludedIngs = [];
 
       //Step 1: only have ingredients in the list.
       //clean up this logic. 
@@ -343,7 +349,11 @@
         } else {
           //recipes:
           for (var j = 0; j < listWithRecipes[i].ingredients.length; ++j) {
-            ingList.push(listWithRecipes[i].ingredients[j])
+            if (!assumedIngList.includes(listWithRecipes[i].ingredients[j].name)) {
+              ingList.push(listWithRecipes[i].ingredients[j]);
+            } else {
+              excludedIngs.push(listWithRecipes[i].ingredients[j]);
+            }
           }
         }
       }
