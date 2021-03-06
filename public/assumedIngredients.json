@@ -1,18 +1,1 @@
-[
-  {
-    "id": 0,
-    "name": "salt"
-  },
-  {
-    "id": 1,
-    "name": "pepper"
-  },
-  {
-    "id": 2,
-    "name": "flour"
-  },
-  {
-    "id": 3,
-    "name": "sugar"
-  }
-]
+[{"id":0,"name":"salt"},{"id":1,"name":"pepper"},{"id":2,"name":"flour"},{"id":3,"name":"sugar"},{"id":4,"name":"brown sugar"},{"id":5,"name":"water"}]

@@ -75,6 +75,21 @@ socket.on("updateIngredientSections", function (map) {
 
 socket.on("updateAssumedIngredients", function (list) {
   assumedIngredients = list;
+
+  var tbl = document.getElementById("assumedIngModalTable");
+  assumedIngredients.forEach(ing => {
+    var model_table_row = document.createElement('tr');
+    var ingName = document.createElement('td');
+    //var deleteButton = document.createElement('td');
+
+    ingName.innerHTML = ing.name;
+
+    //deleteButton.innerHTML = "<button id='deleteAssumedIng' onClick='deleteAssumedIngs(" + ing.id + ")'>Remove from List</button>"
+
+    model_table_row.appendChild(ingName);
+    //model_table_row.appendChild(deleteButton);
+    tbl.appendChild(model_table_row);
+  });
 });
 
 
@@ -139,7 +154,6 @@ function showRecipes() {
         console.log(recipes[i].ingredients[j])
       }
     }
-
 
     var tempRecipe = new recipe(recipes[i].id, recipes[i].name, recipes[i].url, recipes[i].ingredients);
     recipeCheckbox.innerHTML = '<input type="checkbox" id="recipeBox' + recipes[i].id + '" onchange=\'recipeBoxChanged(' + JSON.stringify(tempRecipe) + ')\'/>';
@@ -207,9 +221,10 @@ addNewRecipe.onclick = function () {
     var hasUnknownSection = false;
     for (var i = 0; i < allIngList.length; i++) {
       var str = allIngList[i];
+      str = str.replace("*", "");
       var ing = str.trim();
       //check for casual mentions of salt and pepper
-      if (ing.includes("pepper") && !(ing.charAt[0] <= '9' && ing.charAt[0] >= '0')) {
+      if (ing.toLowerCase().includes("pepper") && !(ing.charAt[0] <= '9' && ing.charAt[0] >= '0')) {
         if (ing.includes("salt")) {
           console.log("salt")
           allIngList.push("1 pinch salt (0.02)");
@@ -274,26 +289,14 @@ addNewRecipe.onclick = function () {
     }
 
   }
+
+  document.getElementById("newRecipeName").value = "";
+  document.getElementById("newRecipeLink").value = "";
+  document.getElementById("newRecipeIng").value = "";
 }
 
 addNewAssumedIng.onclick = function () {
-  var tbl = document.getElementById("assumedIngModalTable");
-  assumedIngredients.forEach(ing => {
-    var model_table_row = document.createElement('tr');
-    var ingName = document.createElement('td');
-    //var deleteButton = document.createElement('td');
-
-    ingName.innerHTML = ing.name;
-
-    //deleteButton.innerHTML = "<button id='deleteAssumedIng' onClick='deleteAssumedIngs(" + ing.id + ")'>Remove from List</button>"
-
-    model_table_row.appendChild(ingName);
-    //model_table_row.appendChild(deleteButton);
-    tbl.appendChild(model_table_row);
-  });
-
   assumedIngModal.style.display = "block";
-
 }
 
 //This is not efficient. Instead need to populate the modal once at the start and only add/remove items when needed. 
@@ -301,23 +304,23 @@ addAssumedIngs.onclick = function () {
   assumedIngModal.style.display = "none";
   var list = document.getElementById("newAssumedIngList").value;
   var items = list.split(",");
+  var tbl = document.getElementById("assumedIngModalTable");
   items.forEach(ing => {
     ing = ing.trim();
     var assumedIng = { "id": assumedIngredients.length, "name": ing }
     assumedIngredients.push(assumedIng);
     socket.emit("newAssumedIngredient", assumedIng);
+
+    var model_table_row = document.createElement('tr');
+    var ingName = document.createElement('td');
+    ingName.innerHTML = ing;
+
+    model_table_row.appendChild(ingName);
+    tbl.appendChild(model_table_row);
+
   });
-
-  var tbl = document.getElementById("assumedIngModalTable");
-
-  while (tbl.children[0] != undefined) {
-    tbl.removeChild(tbl.children[0]);
-  }
+  document.getElementById("newAssumedIngList").value = "";
 }
-// deleteAssumedIng.onclick = function () {
-//   console.log("deleted ing");
-//   console.log("val: " + this.name);
-// }
 
 function getItemSection(name, recipeId, ingId) {
   if (ingredientSections.has(name)) {
@@ -425,4 +428,11 @@ function sortItemsBySections(ingList) {
   console.log(sortedBySection);
   console.log(sections)
   return { "sortedBySection": sortedBySection, "sections": sections };
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function () {
+  assumedIngModal.style.display = "none";
 }
