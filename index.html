@@ -15,11 +15,11 @@
   <div id="topBar">
     <table id="topBarTable">
       <tr id="topBarTableRow">
-        <td class="topBarTableCell"></td>
+        <!-- <td class="topBarTableCell"></td> -->
         <td class="topBarTableCell" id="topBarCellCenter">
           <h1 id="pageName">Recipe Manager</h1>
         </td>
-        <td class="topBarTableCell" id="topBarCellRight"><button id="showAssumedIngModal"> Assumed Ingredients </button>
+        <!-- <td class="topBarTableCell" id="topBarCellRight"><button id="showAssumedIngModal"> Assumed Ingredients </button> -->
         </td>
       </tr>
     </table>
@@ -54,34 +54,30 @@
 
   <div id="main">
     <div id="lists">
-      <div id="recipeList">
-        <h2 style="margin-left: 1%; color: #2F3020">Recipes</h2>
-        <table id="recipeTable">
-
-        </table>
-      </div>
-      <div id="itemList">
-        <h2 style="margin-left: 1%; color: #2F3020">Items</h2>
-        <table id="itemTable">
-
-        </table>
-      </div>
+      <table id="recipeTable" class="table-sort">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Meal Type</th>
+            <th>Mya Rating</th>
+            <th>Michael Rating</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="recipeTableList">
+        </tbody>
+      </table>
     </div>
-    <div id="finalListDiv">
+    <!-- <div id="finalListDiv">
       <div id="finalListTopBar">
 
         <h2 id="finalListTitle">Current List</h2>
         <div id="downloadButtons">
-
         </div>
-
       </div>
-
-
       <ul id="finalList">
-
       </ul>
-    </div>
+    </div> -->
     <div id="addNew">
       <h2>Add a new...</h2>
 
@@ -93,6 +89,23 @@
       <strong>Recipe Name:</strong><br><input id="newRecipeName" type="text" class="addNewInput" />
       <br>
       <br>
+      <strong>Mya's Rating:</strong><br><input id="newRecipeMya" class="addNewInput" type="number" min="1" max="5">
+      <br>
+      <br>
+      <strong>Michael's Rating:</strong><br><input id="newRecipeMichael" class="addNewInput" type="number" min="1"
+        max="5">
+      <br>
+      <br>
+      <strong>Recipe Type:</strong><br>
+      <select name="newRecipeType" id="newRecipeType">
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Dessert">Dessert</option>
+        <option value="Drink">Drink</option>
+      </select>
+      <br>
+      <br>
       <strong>Ingredients: </strong>
       <br>
       <div class="addNewInput">Add one ingredient per line in the form: <br>
@@ -102,9 +115,14 @@
         <textarea id="newRecipeIng" name="text" rows="12" cols="50"></textarea>
       </div>
       <br>
+      <strong>Notes: </strong>
+      <br>
+      <div class="addNewInput"><br>
+        <textarea id="newRecipeNotes" name="text" rows="3" cols="50"></textarea>
+      </div>
+      <br>
       <button id="addNewRecipe">Add Recipe</button>
-      <br>
-      <br>
+      <!-- <br>
       <h3>Item:</h3>
       <strong>Item Name:</strong><br><input id="newItem" type="text" class="addNewInput" />
       <br>
@@ -112,7 +130,7 @@
       <strong>Section:</strong>
       <div id="itemSectionDropdown" class="addNewInput"></div>
       <br>
-      <button id="addNewItem">Add item</button>
+      <button id="addNewItem">Add item</button> -->
 
     </div>
   </div>

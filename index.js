@@ -57,10 +57,10 @@ try {
 
 io.on('connection', function (socket) {
   socket.on("getLists", function () {
-    socket.emit("updateItemList", items);
+    //socket.emit("updateItemList", items);
     socket.emit("updateRecipeList", recipes);
     socket.emit("updateIngredientSections", ingredientSections);
-    socket.emit("updateAssumedIngredients", assumedIngredients);
+    //socket.emit("updateAssumedIngredients", assumedIngredients);
   });
 
   socket.on("newItem", function (item) {
